@@ -450,7 +450,7 @@ class AccountController extends Controller
 
 源至 [@anwar_nairi](https://twitter.com/anwar_nairi/status/1448239591467589633)
 
-<h3 id="Using Gate in middleware method">使用 Gate 在中介方法</h3>
+<h3 id="using-gate-in-middleware-method">使用 Gate 在中介方法</h3>
 
 > 你可以在中介方法中使用你在 `App\Providers\AuthServiceProvider` 中指定的權限。
 > 要使用這個，你只需要在 `can:` 中指定所需的 `gate` 名稱
@@ -540,7 +540,7 @@ Route::get('portfolios/{portfolio}', function (Portfolio $portfolio) {
 
 源至 [@mmartin_joo](https://twitter.com/mmartin_joo/status/1496871240346509312)
 
-<h3 id="Two ways to check the route name">兩個方法檢查路由名稱</h3>
+<h3 id="two-ways-to-check-the-route-name">兩個方法檢查路由名稱</h3>
 
 > 這裡有兩種檢查 Laravel 中路由名稱的方法。
 
