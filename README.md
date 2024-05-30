@@ -28,13 +28,13 @@
 - [「DB 關聯」 Models Relations](models-relations.md) (36 tips)
 - [「資料庫遷移」 Migrations](migrations.md) (15 tips)
 - [「視圖」 Views](views.md) (20 tips)
-- [「路由」 Routing](routing.md) (33 tips)
+- [「路由」 Routing](routing.md) (33 - 3(重複) tips) - 2024/05/30
 - [「驗證」 Validation](validation.md) (24 tips)
 - [「集合」 Collections](collections.md) (8 tips)
-- [「驗證」 Auth](auth.md) (6 tips)
+- [「身份驗證」 Auth](auth.md) (6 tips)
 - [「信箱」 Mail](mail.md) (7 tips)
 - [「指令」 Artisan](artisan.md) (10 tips)
 - [「工廠」 Factories](factories.md) (8 tips)
-- [「日誌、除錯」 Log and debug](log-and-debug.md) (8 tips)
-- [「應用開發介面」 API](api.md) (9 tips)
+- [「日誌、除錯」 Log and debug](log-and-debug.md) (8 tips) - 2024/05/30
+- [「應用開發介面」 API](api.md) (9 tips) - 2024/05/30
 - [「其他」 Other](other.md) (73 tips)
