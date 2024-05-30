@@ -115,10 +115,10 @@ public function boot()
 
 <h3 id="discover-all-events-fired-in-one-request">發現在一個請求中觸發所有的事件</h3>
 
-> 如果你想要實現一個新的監聽器來監聽特定事件，但你不知道它的名稱，你可以在請求期間記錄所有觸發的事件。
-> ---
-> 你可以在 `app/Providers/EventServiceProvider.php` 的 `boot()` 方法中使用 `\Illuminate\Support\Facades\Event::listen()` 方法來捕獲所有觸發的事件。
-> ---
+> 如果你想要實現一個新的監聽器來監聽特定事件，但你不知道它的名稱，你可以在請求期間記錄所有觸發的事件。<br/>
+> <br/>
+> 你可以在 `app/Providers/EventServiceProvider.php` 的 `boot()` 方法中使用 `\Illuminate\Support\Facades\Event::listen()` 方法來捕獲所有觸發的事件。<br/>
+> <br/>
 > **重要:** 如果你在這個事件監聽器中使用 `Log` facade，那麼你需要排除名為 `Illuminate\Log\Events\MessageLogged` 的事件，以避免無限循環。(例如: `if ($event == 'Illuminate\\Log\\Events\\MessageLogged') return;`)
 
 ```php
