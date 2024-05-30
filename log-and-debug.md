@@ -1,25 +1,25 @@
 ## Log and debug
 
-⬆️ [Go to main menu](README.md#laravel-tips) ⬅️ [Previous (Factories)](factories.md) ➡️ [Next (API)](api.md)
+⬆️ [返回主要選單](README.md#laravel-tips) ⬅️ [返回上一個 (「工廠」)](factories.md) ➡️ [下一個 (「應用開發介面」)](api.md)
 
-- [Logging with parameters](#logging-with-parameters)
-- [Log Long Running Laravel Queries](#log-long-running-laravel-queries)
-- [Benchmark class](#benchmark-class)
-- [More convenient DD](#more-convenient-dd)
-- [Log with context](#log-with-context)
-- [Quickly output an Eloquent query in its SQL form](#quickly-output-an-eloquent-query-in-its-sql-form)
-- [Log all the database queries during development](#log-all-the-database-queries-during-development)
-- [Discover all events fired in one request](#discover-all-events-fired-in-one-request)
+- [帶入參數的日誌 - Logging with parameters](#logging-with-parameters)
+- [紀錄運行較久的動作 - Log Long Running Laravel Queries](#log-long-running-laravel-queries)
+- [壓測class - Benchmark class](#benchmark-class)
+- [更多方便的 `dd` - More convenient DD](#more-convenient-dd)
+- [日誌與上下文 - Log with context](#log-with-context)
+- [快速以 SQL 的形式輸出 Eloquent 的查詢 - Quickly output an Eloquent query in its SQL form](#quickly-output-an-eloquent-query-in-its-sql-form)
+- [在開發模式下 Log 所有的 DB 語句 - Log all the database queries during development](#log-all-the-database-queries-during-development)
+- [發現在一個請求中觸發所有的事件 - Discover all events fired in one request](#discover-all-events-fired-in-one-request)
 
-### Logging with parameters
+<h3 id="logging-with-parameters">帶入參數的日誌</h3>
 
-You can write `Log::info()`, or shorter `info()` message with additional parameters, for more context about what happened.
+> 你可以寫 `Log::info()`，或更簡短的 `info()` 訊息加上額外參數，以提供更多發生的上下文。(幫助你更快找到問題)
 
 ```php
 Log::info('User failed to login.', ['id' => $user->id]);
 ```
 
-### Log Long Running Laravel Queries
+<h3 id="log-long-running-laravel-queries">紀錄運行較久的動作</h3>
 
 ```php
 DB::enableQueryLog();
@@ -32,13 +32,13 @@ DB::whenQueryingForLongerThen(1000, function ($connection) {
 });
 ```
 
-Tip given by [@realstevebauman](https://twitter.com/realstevebauman/status/1576980397552185344)
+源至 [@realstevebauman](https://twitter.com/realstevebauman/status/1576980397552185344)
 
-### Benchmark class
+<h3 id="benchmark-class">壓測class</h3>
 
-In Laravel 9.32 we have a Benchmark class that can measure the time of any task.
+> 在 Laravel 9.32 中，我們有一個 Benchmark class 可以測量任務的時間。
 
-It's a pretty useful helper:
+這是一個相當有用的幫手:
 ```php
 class OrderController
 {
@@ -49,25 +49,24 @@ class OrderController
 }
 ```
 
-Tip given by [@mmartin_joo](https://twitter.com/mmartin_joo/status/1583096196494553088)
+源至 [@mmartin_joo](https://twitter.com/mmartin_joo/status/1583096196494553088)
 
-### More convenient DD
+<h3 id="more-convenient-dd">更多方便的 `dd`</h3>
 
-Instead of doing `dd($result)` you can put `->dd()` as a method directly at the end of your Eloquent sentence, or any Collection.
+> 你可以在 Eloquent 語句或任何 Collection 的最後加上 `->dd()` 作為方法，而不是使用 `dd($result)`。
 
 ```php
-// Instead of
+// 原本可能寫成這樣
 $users = User::where('name', 'Taylor')->get();
 dd($users);
-// Do this
+// 加入這個屬性後可以這樣寫(更簡潔)
 $users = User::where('name', 'Taylor')->get()->dd();
 ```
 
-### Log with context
+<h3 id="log-with-context">日誌與上下文</h3>
 
-New in Laravel 8.49: `Log::withContext()` will help you to differentiate the Log messages between different requests.
-
-If you create a Middleware and set this context, all Log messages will contain that context, and you'll be able to search them easier.
+> 在 Laravel 8.49 中: `Log::withContext()` 將幫助你區分不同請求之間的 Log 訊息。<br/>
+> 如果你建立一個 Middleware 並設置這個上下文，所有 Log 訊息將包含該上下文，你將能更輕鬆地搜尋它們。
 
 ```php
 public function handle(Request $request, Closure $next)
@@ -84,9 +83,9 @@ public function handle(Request $request, Closure $next)
 }
 ```
 
-### Quickly output an Eloquent query in its SQL form
+<h3 id="quickly-output-an-eloquent-query-in-its-sql-form">快速以 SQL 的形式輸出 Eloquent 的查詢</h3>
 
-If you want to quickly output an Eloquent query in its SQL form, you can invoke the toSql() method onto it like so
+> 如果你想快速輸出 Eloquent 查詢的 SQL 形式，你可以像這樣將 `toSql()` 方法加到它上面。
 
 ```php
 $invoices = Invoice::where('client', 'James pay')->toSql();
@@ -95,11 +94,11 @@ dd($invoices)
 // select * from `invoices` where `client` = ?
 ```
 
-Tip given by [@devThaer](https://twitter.com/devThaer/status/1438816135881822210)
+源至 [@devThaer](https://twitter.com/devThaer/status/1438816135881822210)
 
-### Log all the database queries during development
+<h3 id="log-all-the-database-queries-during-development">在開發模式下 Log 所有的 DB 語句</h3>
 
-If you want to log all the database queries during development add this snippet to your AppServiceProvider
+> 如果你想在開發時記錄所有的資料庫查詢，請將此片段添加到你的 AppServiceProvider 中。
 
 ```php
 public function boot()
@@ -112,16 +111,15 @@ public function boot()
 }
 ```
 
-Tip given by [@mmartin_joo](https://twitter.com/mmartin_joo/status/1473262634405449730)
+源至 [@mmartin_joo](https://twitter.com/mmartin_joo/status/1473262634405449730)
 
-### Discover all events fired in one request
+<h3 id="discover-all-events-fired-in-one-request">發現在一個請求中觸發所有的事件</h3>
 
-If you want to implement a new listener to a specific event but you don't know its name, you can log all events fired during the request.
-
-You can use the `\Illuminate\Support\Facades\Event::listen()` method on `boot()` method of `app/Providers/EventServiceProvider.php` to catch all events fired.
-
-**Important:** If you use the `Log` facade within this event listener then you will need to exclude events named `Illuminate\Log\Events\MessageLogged` to avoid an infinite loop. 
-(Example: `if ($event == 'Illuminate\\Log\\Events\\MessageLogged') return;`)
+> 如果你想要實現一個新的監聽器來監聽特定事件，但你不知道它的名稱，你可以在請求期間記錄所有觸發的事件。
+> ---
+> 你可以在 `app/Providers/EventServiceProvider.php` 的 `boot()` 方法中使用 `\Illuminate\Support\Facades\Event::listen()` 方法來捕獲所有觸發的事件。
+> ---
+> **重要:** 如果你在這個事件監聽器中使用 `Log` facade，那麼你需要排除名為 `Illuminate\Log\Events\MessageLogged` 的事件，以避免無限循環。(例如: `if ($event == 'Illuminate\\Log\\Events\\MessageLogged') return;`)
 
 ```php
 // Include Event...
@@ -142,4 +140,4 @@ public function boot()
 }
 ```
 
-Tip given by [@MuriloChianfa](https://github.com/MuriloChianfa)
+源至 [@MuriloChianfa](https://github.com/MuriloChianfa)
