@@ -552,10 +552,10 @@ Route::get('portfolios/{portfolio}', function (Portfolio $portfolio) {
 >
     Home
 </a>
-// #2: request()->routeIs('home)
+// #2: request()->routeIs('home')
 <a
     href="{{ route('home') }}"
-    @class="['navbar-link', 'active' => request()->routeIs('home)]"
+    @class="['navbar-link', 'active' => request()->routeIs('home')]"
 >
     Home
 </a>
