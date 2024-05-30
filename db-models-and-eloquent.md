@@ -1,133 +1,131 @@
 ## DB Models and Eloquent
 
-⬆️ [Go to main menu](README.md#laravel-tips) ➡️ [Next (Models Relations)](models-relations.md)
+⬆️ [返回主要選單](README.md#laravel-tips) ➡️ [下一個 (「DB 關聯」)](models-relations.md)
 
-- [Reuse or clone query()](#reuse-or-clone-query)
-- [Remember to use bindings in your raw queries](#remember-to-use-bindings-in-your-raw-queries)
-- [Small cheat-sheet for using Full-Text Search with Laravel on MySQL](#small-cheat-sheet-for-using-full-text-search-with-laravel-on-mysql)
-- [Merging eloquent collections](#merging-eloquent-collections)
-- [Perform operation without modifying updated_at field](#perform-operation-without-modifying-updated_at-field)
-- [You can write transaction-aware code](#you-can-write-transaction-aware-code)
-- [Eloquent scopes inside of other relationships](#eloquent-scopes-inside-of-other-relationships)
-- [New `rawValue()` method since Laravel 9.37](#new-rawvalue-method-since-laravel-937)
-- [Load data faster when the targeted value is an integer](#load-data-faster-when-the-targeted-value-is-an-integer)
-- [Load data completed between two timestamps](#load-data-completed-between-two-timestamps)
-- [Pass a raw query to order your results](#pass-a-raw-query-to-order-your-results)
-- [Eloquent where date methods](#eloquent-where-date-methods)
-- [Increments and decrements](#increments-and-decrements)
-- [No timestamp columns](#no-timestamp-columns)
-- [Soft-deletes: multiple restore](#soft-deletes-multiple-restore)
-- [Model all: columns](#model-all-columns)
-- [To Fail or not to Fail](#to-fail-or-not-to-fail)
-- [Column name change](#column-name-change)
-- [Map query results](#map-query-results)
-- [Change Default Timestamp Fields](#change-default-timestamp-fields)
-- [Quick Order by created_at](#quick-order-by-created_at)
-- [Automatic Column Value When Creating Records](#automatic-column-value-when-creating-records)
-- [DB Raw Query Calculations Run Faster](#db-raw-query-calculations-run-faster)
-- [More than One Scope](#more-than-one-scope)
-- [No Need to Convert Carbon](#no-need-to-convert-carbon)
-- [Grouping by First Letter](#grouping-by-first-letter)
-- [Never Update the Column](#never-update-the-column)
-- [Find Many](#find-many)
-- [Find Many and return specific columns](#find-many-and-return-specific-columns)
-- [Find by Key](#find-by-key)
-- [Use UUID instead of auto-increment](#use-uuid-instead-of-auto-increment)
-- [Sub-selects in Laravel Way](#sub-selects-in-laravel-way)
-- [Hide Some Columns](#hide-some-columns)
-- [Exact DB Error](#exact-db-error)
-- [Soft-Deletes with Query Builder](#soft-deletes-with-query-builder)
-- [Good Old SQL Query](#good-old-sql-query)
-- [Use DB Transactions](#use-db-transactions)
-- [Update or Create](#update-or-create)
-- [Forget Cache on Save](#forget-cache-on-save)
-- [Change Format Of Created_at and Updated_at](#change-format-of-created_at-and-updated_at)
-- [Storing Array Type into JSON](#storing-array-type-into-json)
-- [Make a Copy of the Model](#make-a-copy-of-the-model)
-- [Reduce Memory](#reduce-memory)
-- [Force query without $fillable/$guarded](#force-query-without-fillableguarded)
-- [3-level structure of parent-children](#3-level-structure-of-parent-children)
-- [Perform any action on failure](#perform-any-action-on-failure)
-- [Check if record exists or show 404](#check-if-record-exists-or-show-404)
-- [Abort if condition failed](#abort-if-condition-failed)
-- [Fill a column automatically while you persist data to the database](#fill-a-column-automatically-while-you-persist-data-to-the-database)
-- [Extra information about the query](#extra-information-about-the-query)
-- [Using the doesntExist() method in Laravel](#using-the-doesntexist-method-in-laravel)
-- [Trait that you want to add to a few Models to call their boot() method automatically](#trait-that-you-want-to-add-to-a-few-models-to-call-their-boot-method-automatically)
-- [There are two common ways of determining if a table is empty in Laravel](#there-are-two-common-ways-of-determining-if-a-table-is-empty-in-laravel)
-- [How to prevent “property of non-object” error](#how-to-prevent-property-of-non-object-error)
-- [Get original attributes after mutating an Eloquent record](#get-original-attributes-after-mutating-an-eloquent-record)
-- [A simple way to seed a database](#a-simple-way-to-seed-a-database)
-- [The crossJoinSub method of the query constructor](#the-crossjoinsub-method-of-the-query-constructor)
-- [Belongs to Many Pivot table naming](#belongs-to-many-pivot-table-naming)
-- [Order by Pivot Fields](#order-by-pivot-fields)
-- [Find a single record from a database](#find-a-single-record-from-a-database)
-- [Automatic records chunking](#automatic-records-chunking)
-- [Updating the model without dispatching events](#updating-the-model-without-dispatching-events)
-- [Periodic cleaning of models from obsolete records](#periodic-cleaning-of-models-from-obsolete-records)
-- [Immutable dates and casting to them](#immutable-dates-and-casting-to-them)
-- [The findOrFail method also accepts a list of ids](#the-findorfail-method-also-accepts-a-list-of-ids)
-- [Prunable trait to automatically remove models from your database](#prunable-trait-to-automatically-remove-models-from-your-database)
-- [withAggregate method](#withaggregate-method)
-- [Date convention](#date-convention)
-- [Eloquent multiple upserts](#eloquent-multiple-upserts)
-- [Retrieve the Query Builder after filtering the results](#retrieve-the-query-builder-after-filtering-the-results)
-- [Custom casts](#custom-casts)
-- [Order based on a related model's average or count](#order-based-on-a-related-models-average-or-count)
-- [Return transactions result](#return-transactions-result)
-- [Remove several global scopes from query](#remove-several-global-scopes-from-query)
-- [Order JSON column attribute](#order-json-column-attribute)
-- [Get single column's value from the first result](#get-single-columns-value-from-the-first-result)
-- [Check if altered value changed key](#check-if-altered-value-changed-key)
-- [New way to define accessor and mutator](#new-way-to-define-accessor-and-mutator)
-- [Another way to do accessors and mutators](#another-way-to-do-accessors-and-mutators)
-- [When searching for the first record, you can perform some actions](#when-searching-for-the-first-record-you-can-perform-some-actions)
-- [Directly convert created_at date to human readable format](#directly-convert-created_at-date-to-human-readable-format)
-- [Ordering by an Eloquent Accessor](#ordering-by-an-eloquent-accessor)
-- [Check for specific model was created or found](#check-for-specific-model-was-created-or-found)
-- [Laravel Scout with database driver](#laravel-scout-with-database-driver)
-- [Make use of the value method on the query builder](#make-use-of-the-value-method-on-the-query-builder)
-- [Pass array to where method](#pass-array-to-where-method)
-- [Return the primary keys from models collection](#return-the-primary-keys-from-models-collection)
-- [Force Laravel to use eager loading](#force-laravel-to-use-eager-loading)
-- [Make all your models mass assignable](#make-all-your-models-mass-assignable)
-- [Hiding columns in select all statements](#hiding-columns-in-select-all-statements)
-- [JSON Where Clauses](#json-where-clauses)
-- [Get all the column names for a table](#get-all-the-column-names-for-a-table)
-- [Compare the values of two columns](#compare-the-values-of-two-columns)
-- [Accessor Caching](#accessor-caching)
-- [New scalar() method](#new-scalar-method)
-- [Select specific columns](#select-specific-columns)
-- [Chain conditional clauses to the query without writing if-else statements](#chain-conditional-clauses-to-the-query-without-writing-if-else-statements)
-- [Override Connection Attribute in Models](#override-connection-attribute-in-models)
-- [Using Column Names in Where Clauses (Dynamic Where Clauses)](#using-column-names-in-where-clauses-dynamic-where-clauses)
-- [Using firstOrCreate()](#using-firstorcreate)
+- [重用或克隆query() - Reuse or clone query()](#reuse-or-clone-query)
+- [記得在原始查詢中使用綁定 - Remember to use bindings in your raw queries](#remember-to-use-bindings-in-your-raw-queries)
+- [使用 Laravel 在 MySQL 上進行全文搜尋的小抄 - Small cheat-sheet for using Full-Text Search with Laravel on MySQL](#small-cheat-sheet-for-using-full-text-search-with-laravel-on-mysql)
+- [合併 Eloquent 搜尋結果 - Merging eloquent collections](#merging-eloquent-collections)
+- [不修改 updated_at 字段的情况下執行操作 - Perform operation without modifying updated_at field](#perform-operation-without-modifying-updated_at-field)
+- [你可以寫出交易後觸發的程式碼 - You can write transaction-aware code](#you-can-write-transaction-aware-code)
+- [在其他關係中的 Eloquent 範疇 - Eloquent scopes inside of other relationships](#eloquent-scopes-inside-of-other-relationships)
+- [自 Laravel 9.37 版本起的新 `rawValue()` 方法 - New `rawValue()` method since Laravel 9.37](#new-rawvalue-method-since-laravel-937)
+- [當目標值為整數時，加快資料載入速度 - Load data faster when the targeted value is an integer](#load-data-faster-when-the-targeted-value-is-an-integer)
+- [載入資料完成於兩個時間戳記之間 - Load data completed between two timestamps](#load-data-completed-between-two-timestamps)
+- [傳遞原始查詢以排序你的結果 - Pass a raw query to order your results](#pass-a-raw-query-to-order-your-results)
+- [Eloquent 的 where date 方法 - Eloquent where date methods](#eloquent-where-date-methods)
+- [遞增和遞減 - Increments and decrements](#increments-and-decrements)
+- [沒有時間戳記欄位 - No timestamp columns](#no-timestamp-columns)
+- [軟刪除: 多重還原 - Soft-deletes: multiple restore](#soft-deletes-multiple-restore)
+- [Model all: 欄位 - Model all: columns](#model-all-columns)
+- [要失敗或不要失敗 - To Fail or not to Fail](#to-fail-or-not-to-fail)
+- [欄位名稱變更 - Column name change](#column-name-change)
+- [映射查詢結果 - Map query results](#map-query-results)
+- [變更預設時間戳記欄位 - Change Default Timestamp Fields](#change-default-timestamp-fields)
+- [依 created_at 快速排序 - Quick Order by created_at](#quick-order-by-created_at)
+- [建立紀錄時自動填入欄位值 - Automatic Column Value When Creating Records](#automatic-column-value-when-creating-records)
+- [DB 原生查詢計算運行更快 - DB Raw Query Calculations Run Faster](#db-raw-query-calculations-run-faster)
+- [多於一個 scope - More than One Scope](#more-than-one-scope)
+- [無需轉換 Carbon - No Need to Convert Carbon](#no-need-to-convert-carbon)
+- [依首字母分組 - Grouping by First Letter](#grouping-by-first-letter) <---- here
+- [永不更新該欄位 - Never Update the Column](#never-update-the-column)
+- [尋找多個 - Find Many](#find-many)
+- [尋找多個並返回特定欄位 - Find Many and return specific columns](#find-many-and-return-specific-columns)
+- [依鍵尋找 - Find by Key](#find-by-key)
+- [使用UUID而非自動遞增 - Use UUID instead of auto-increment](#use-uuid-instead-of-auto-increment)
+- [Laravel 方式的子查詢 - Sub-selects in Laravel Way](#sub-selects-in-laravel-way)
+- [隱藏部分欄位 - Hide Some Columns](#hide-some-columns)
+- [精確的 DB 錯誤 - Exact DB Error](#exact-db-error)
+- [使用查詢建構器進行軟刪除 - Soft-Deletes with Query Builder](#soft-deletes-with-query-builder)
+- [好老的 SQL 查詢 - Good Old SQL Query](#good-old-sql-query)
+- [使用 DB 交易 - Use DB Transactions](#use-db-transactions)
+- [更新或建立 - Update or Create](#update-or-create)
+- [儲存時刪除快取 - Forget Cache on Save](#forget-cache-on-save)
+- [變更 created_at 和 updated_at 的格式 - Change Format Of Created_at and Updated_at](#change-format-of-created_at-and-updated_at)
+- [將陣列型別儲存為 JSON - Storing Array Type into JSON](#storing-array-type-into-json)- [將陣列型別儲存為JSON - Storing Array Type into JSON](#storing-array-type-into-json)
+- [製作 Model 的副本 - Make a Copy of the Model](#make-a-copy-of-the-model)
+- [減少記憶體使用量 - Reduce Memory](#reduce-memory)
+- [強制查詢時不使用 $fillable/$guarded - Force query without $fillable/$guarded](#force-query-without-fillableguarded)
+- [三層父子結構 - 3-level structure of parent-children](#3-level-structure-of-parent-children)
+- [失敗時執行任何操作 - Perform any action on failure](#perform-any-action-on-failure)
+- [檢查紀錄是否存在或顯示 404 - Check if record exists or show 404](#check-if-record-exists-or-show-404)
+- [如果條件失敗則中止 - Abort if condition failed](#abort-if-condition-failed)
+- [在持久化資料到資料庫時自動填入欄位 - Fill a column automatically while you persist data to the database](#fill-a-column-automatically-while-you-persist-data-to-the-database)
+- [關於查詢的額外資訊 - Extra information about the query](#extra-information-about-the-query)
+- [在Laravel中使用 `doesntExist()` 方法 - Using the doesntExist() method in Laravel](#using-the-doesntexist-method-in-laravel)
+- [要新增到少數幾個Model以自動呼叫其 `boot()` 方法的Trait - Trait that you want to add to a few Models to call their boot() method automatically](#trait-that-you-want-to-add-to-a-few-models-to-call-their-boot-method-automatically)
+- [在 Laravel 中有兩種常見的方式來確定表格是否為空 - There are two common ways of determining if a table is empty in Laravel](#there-are-two-common-ways-of-determining-if-a-table-is-empty-in-laravel)
+- [如何防止*非物件的屬性*錯誤 - How to prevent "property of non-object" error](#how-to-prevent-property-of-non-object-error)
+- [在變更 Eloquent 記錄後獲取原始屬性 - Get original attributes after mutating an Eloquent record](#get-original-attributes-after-mutating-an-eloquent-record)
+- [簡單的資料庫播種方式 - A simple way to seed a database](#a-simple-way-to-seed-a-database)
+- [查詢構造器的crossJoinSub方法 - The crossJoinSub method of the query constructor](#the-crossjoinsub-method-of-the-query-constructor)
+- [多對多的樞紐表命名 - Belongs to Many Pivot table naming](#belongs-to-many-pivot-table-naming)
+- [根據樞紐欄位排序 - Order by Pivot Fields](#order-by-pivot-fields)
+- [從資料庫中尋找單一記錄 - Find a single record from a database](#find-a-single-record-from-a-database)
+- [自動分塊記錄 - Automatic records chunking](#automatic-records-chunking)
+- [更新模型時不觸發事件 - Updating the model without dispatching events](#updating-the-model-without-dispatching-events)
+- [定期從陳舊記錄中清理模型 - Periodic cleaning of models from obsolete records](#periodic-cleaning-of-models-from-obsolete-records)
+- [不可變日期和轉換為它們 - Immutable dates and casting to them](#immutable-dates-and-casting-to-them)
+- [findOrFail方法也可接受id列表 - The findOrFail method also accepts a list of ids](#the-findorfail-method-also-accepts-a-list-of-ids)
+- [可剔除的 Trait 可自動從資料庫中移除模型 - Prunable trait to automatically remove models from your database](#prunable-trait-to-automatically-remove-models-from-your-database)
+- [`withAggregate` 方法 - withAggregate method](#withaggregate-method)
+- [日期慣例 - Date convention](#date-convention)
+- [Eloquent 多重更新/插入 - Eloquent multiple upserts](#eloquent-multiple-upserts)
+- [在過濾結果後取得查詢建構器 - Retrieve the Query Builder after filtering the results](#retrieve-the-query-builder-after-filtering-the-results)
+- [自訂類型轉換 - Custom casts](#custom-casts)
+- [根據相關模型的平均值或計數排序 - Order based on a related model's average or count](#order-based-on-a-related-models-average-or-count)
+- [返回交易結果 - Return transactions result](#return-transactions-result)
+- [從查詢中移除多個全域範疇 - Remove several global scopes from query](#remove-several-global-scopes-from-query)
+- [排序JSON欄位屬性 - Order JSON column attribute](#order-json-column-attribute)
+- [從第一個結果獲取單一欄位的值 - Get single column's value from the first result](#get-single-columns-value-from-the-first-result)
+- [檢查已更改的值是否更改了鍵 - Check if altered value changed key](#check-if-altered-value-changed-key)
+- [定義存取器和修改器的新方式 - New way to define accessor and mutator](#new-way-to-define-accessor-and-mutator)
+- [另一種實現存取器和修改器的方式 - Another way to do accessors and mutators](#another-way-to-do-accessors-and-mutators)
+- [在搜尋第一筆記錄時，你可以執行一些動作 - When searching for the first record, you can perform some actions](#when-searching-for-the-first-record-you-can-perform-some-actions)
+- [直接將 created_at 日期轉換為人類可讀格式 - Directly convert created_at date to human readable format](#directly-convert-created_at-date-to-human-readable-format)
+- [按 Eloquent 存取器排序 - Ordering by an Eloquent Accessor](#ordering-by-an-eloquent-accessor)
+- [檢查特定模型是否已建立或找到 - Check for specific model was created or found](#check-for-specific-model-was-created-or-found)
+- [使用資料庫驅動器的 Laravel Scout - Laravel Scout with database driver](#laravel-scout-with-database-driver)
+- [利用查詢建構器上的 value 方法 - Make use of the value method on the query builder](#make-use-of-the-value-method-on-the-query-builder)
+- [將陣列傳遞給 where 方法 - Pass array to where method](#pass-array-to-where-method)
+- [從模型集合返回主鍵 - Return the primary keys from models collection](#return-the-primary-keys-from-models-collection)
+- [強制 Laravel 使用 eager loading - Force Laravel to use eager loading](#force-laravel-to-use-eager-loading)
+- [讓所有模型均可大量賦值 - Make all your models mass assignable](#make-all-your-models-mass-assignable)
+- [在select all語句中隱藏欄位 - Hiding columns in select all statements](#hiding-columns-in-select-all-statements)
+- [JSON Where子句 - JSON Where Clauses](#json-where-clauses)
+- [獲取表格的所有欄位名稱 - Get all the column names for a table](#get-all-the-column-names-for-a-table)
+- [比較兩個欄位的值 - Compare the values of two columns](#compare-the-values-of-two-columns)
+- [存取器快取 - Accessor Caching](#accessor-caching)
+- [新的 `scalar()` 方法 - New scalar() method](#new-scalar-method)
+- [選擇特定欄位 - Select specific columns](#select-specific-columns)
+- [在查詢中鏈結條件子句而無需編寫if-else語句 - Chain conditional clauses to the query without writing if-else statements](#chain-conditional-clauses-to-the-query-without-writing-if-else-statements)
+- [在模型中覆寫 Connection 屬性 - Override Connection Attribute in Models](#override-connection-attribute-in-models)
+- [在 Where 子句中使用欄位名稱（動態Where子句） - Using Column Names in Where Clauses (Dynamic Where Clauses)](#using-column-names-in-where-clauses-dynamic-where-clauses)
+- [使用 `firstOrCreate()` - Using firstOrCreate()](#using-firstorcreate)
 
-### Reuse or clone query()
+<h3 id="reuse-or-clone-query">重用或克隆query()</h3>
 
-Typically, we need to query multiple time from a filtered query. So, most of the time we use `query()` method,
-
-let's write a query for getting today created active and inactive products
+> 通常，我們需要從篩選查詢中查詢多次。因此，大多數時候我們使用 `query()` 方法，<br/>
+> 來寫一個查詢，以獲取今天創建的活動和非活動產品
 
 ```php
 
 $query = Product::query();
-
 
 $today = request()->q_date ?? today();
 if($today){
     $query->where('created_at', $today);
 }
 
-// lets get active and inactive products
-$active_products = $query->where('status', 1)->get(); // this line modified the $query object variable
-$inactive_products = $query->where('status', 0)->get(); // so here we will not find any inactive products
+// 取得 啟用和未啟用 的產品
+$active_products = $query->where('status', 1)->get(); // 這行已經編輯過查詢物件了
+$inactive_products = $query->where('status', 0)->get(); // 所以這邊會找不到未啟用的物件
 ```
-
-But, after getting `$active products` the `$query` will be modified. So, `$inactive_products` will not find any inactive products from `$query` and that will return blank collection every time. Cause, that will try to find inactive products from `$active_products` (`$query` will return active products only).
-
-For solve this issue, we can query multiple time by reusing this `$query` object.
-So, We need to clone this `$query` before doing any `$query` modification action.
+> 但是，在獲得 `$active products` 之後，`$query` 將被修改。<br/>
+> 因此，`$inactive_products` 將無法從 `$query` 中找到任何未啟用的產品，<br/>
+> 這將每次都返回空集合。因為這將嘗試從 `$active_products` 中找到未啟用的產品（`$query` 將僅返回啟用的產品）。<br/><br/>
+> 為了解決這個問題，我們可以多次查詢，重複使用這個 `$query` 物件。<br/>
+> 因此，在進行任何 `$query` 修改操作之前，我們需要克隆這個 `$query` 物件。
 
 ```php
 $active_products = $query->clone()->where('status', 1)->get(); // it will not modify the $query
@@ -135,9 +133,9 @@ $inactive_products = $query->clone()->where('status', 0)->get(); // so we will g
 
 ```
 
-### Remember to use bindings in your raw queries
+<h3 id="remember-to-use-bindings-in-your-raw-queries">記得在原始查詢中使用綁定</h3>
 
-You can pass an array of bindings to most raw query methods to avoid SQL injection.
+> 您可以將大多數原始查詢方法的綁定陣列傳遞給大多數原始查詢方法，以避免 SQL 注入。
 
 ```php
 // This is vulnerable to SQL injection
@@ -148,9 +146,9 @@ User::whereRaw("CONCAT(first_name, last_name) = $fullName")->get();
 User::whereRaw("CONCAT(first_name, last_name) = ?", [request('full_name')])->get();
 ```
 
-Tip given by [@cosmeescobedo](https://twitter.com/cosmeescobedo/status/1565806352219328513)
+源至 [@cosmeescobedo](https://twitter.com/cosmeescobedo/status/1565806352219328513)
 
-### Small cheat-sheet for using Full-Text Search with Laravel on MySQL
+<h3 id="small-cheat-sheet-for-using-full-text-search-with-laravel-on-mysql">使用 Laravel 在 MySQL 上進行全文搜尋的小抄</h3>
 
 Migration
 ```php
@@ -159,40 +157,38 @@ Schema::create('comments', function (Blueprint $table) {
      $table->string('title');
      $table->text('description');
 
+    // 這將在 `title` 和 `description` 上創建全文索引，以便您可以使用全文搜索。
      $table->fullText(['title', 'description']);
 });
 ```
 
-Natural language
-
-Search for `something`
+> 自然語言: <br/>
+> 搜尋關於 `something`。
 ```php
 Comment::whereFulltext(['title', 'description'], 'something')->get();
 ```
 
-Natural language with Query Expansion
+> 自然語言使用語句擴展: <br/>
+> 搜尋 `something` 並使用結果執行更大的查詢。
 
-Search for `something` and use the results to perform a larger query
 ```php
 Comment::whereFulltext(['title', 'description'], 'something', ['expanded' => true])->get();
 ```
 
-Boolean mode
+> 布林模式: <br/>
+> 搜尋 `something` 和 `else`。
 
-Search for `something` and exclude `else`
 ```php
 Comment::whereFulltext(['title', 'description'], '+something -else', ['mode' => 'boolean'])->get();
 ```
 
-Tip given by [@w3Nicolas](https://twitter.com/w3Nicolas/status/1566694849767772160/)
+源至 [@w3Nicolas](https://twitter.com/w3Nicolas/status/1566694849767772160/)
 
-### Merging eloquent collections
+<h3 id="merging-eloquent-collections">合併 Eloquent 搜尋結果</h3>
 
-The Eloquent collection's merge method uses the id to avoid duplicated models.
-
-But if you are merging collections of different Models, it can cause get you unexpected results.
-
-Use the base collection method instead.
+> Eloquent 集合的 `merge` 方法使用 id 來避免重複的模型。<br/>
+> 但是，如果合併不同模型的集合，可能會導致意外的結果。<br/>
+> 請改用基本集合方法。
 
 ```php
 $videos = Video::all();
@@ -206,13 +202,13 @@ $allMedia = $videos->merge($images);
 $allMedia = $videos->toBase()->merge($images);
 ```
 
-Tip given by [@cosmeescobedo](https://twitter.com/cosmeescobedo/status/1568392184772296706)
+源至 [@cosmeescobedo](https://twitter.com/cosmeescobedo/status/1568392184772296706)
 
-### Perform operation without modifying updated_at field
+<h3 id="perform-operation-without-modifying-updated_at-field">不修改 updated_at 字段的情况下執行操作</h3>
 
-If you would like to perform model operations without the model having its `updated_at` timestamp modified, you may operate on the model within a closure given to the `withoutTimestamps` method.
-
-Available from Laravel 9.31.
+> 如果您想要在不修改模型的 `updated_at` 时间戳的情况下執行模型操作，<br/>
+> 您可以在 `withoutTimestamps` 方法中给定的閉包中對模型進行操作。<br/><br/>
+> Laravel 9.31 後可用。
 
 ```php
 $user = User::first();
@@ -224,13 +220,13 @@ User::withoutTimestamps(
 );
 ```
 
-Tip given by [@LaravelEloquent](https://twitter.com/LaravelEloquent/status/1573787406528126976)
+源至 [@LaravelEloquent](https://twitter.com/LaravelEloquent/status/1573787406528126976)
 
-### You can write transaction-aware code
+<h3 id="you-can-write-transaction-aware-code">你可以寫出交易後觸發的程式碼</h3>
 
-Using `DB::afterCommit` method you can write code that will only be executed if the transaction gets committed and discarded if the transaction is rolled back.
+> 使用 `DB::afterCommit` 方法，您可以編寫只有在交易提交成功後才執行的程式碼，<br/>
+> 如果交易回滾，則會被丟棄。
 
-If there is no transaction, the code will be executed right away.
 ```php
 DB::transaction(function () {
      $user = User::create([...]);
@@ -255,22 +251,22 @@ class User extends Model
 }
 ```
 
-Tip given by [@cosmeescobedo](https://twitter.com/cosmeescobedo/status/1583960872602390528)
+源至 [@cosmeescobedo](https://twitter.com/cosmeescobedo/status/1583960872602390528)
 
-### Eloquent scopes inside of other relationships
+<h3 id="eloquent-scopes-inside-of-other-relationships">在其他關係中的 Eloquent 範疇</h3>
 
-Did you know that you can use Eloquent scopes inside of defining other relationships?
+> 你知道你可以在定義其他關係時使用 Eloquent 範疇嗎？
 
-**app/Models/Lesson.php**:
 ```php
+// app/Models/Lesson.php - 課堂Model
 public function scopePublished($query)
 {
      return $query->where('is_published', true);
 }
 ```
 
-**app/Models/Course.php**:
 ```php
+// app/Models/Course.php - 課程Model
 public function lessons(): HasMany
 {
      return $this->hasMany(Lesson::class);
@@ -282,9 +278,9 @@ public function publishedLessons(): HasMany
 }
 ```
 
-### New `rawValue()` method since Laravel 9.37
+<h3 id="new-rawvalue-method-since-laravel-937">自 Laravel 9.37 版本起的新 `rawValue()` 方法</h3>
 
-Laravel 9.37 has a new `rawValue()` method to get a value from a SQL expression. Here are some examples from the pull request:
+> Laravel 9.37 版本有一個新的 `rawValue()` 方法，用於從 SQL 表達式中獲取值。<br/>
 ```php
 $first = TripModel::orderBy('date_at', 'ASC')
      ->rawValue('YEAR(`date_at`)');
@@ -295,55 +291,55 @@ $fullname = UserModel::where('id', $id)
      ->rawValue('CONCAT(`first_name`, " ", `last_name`)');
 ```
 
-Tip given by [@LoydRG](https://twitter.com/LoydRG/status/1587689148768567298)
+源至 [@LoydRG](https://twitter.com/LoydRG/status/1587689148768567298)
 
-### Load data faster when the targeted value is an integer
+<h3 id="load-data-faster-when-the-targeted-value-is-an-integer">當目標值為整數時，加快資料載入速度</h3>
 
-Instead of using the 𝘄𝗵𝗲𝗿𝗲𝗜𝗻() method to load a large range of data when the targeted value is an integer, use 𝘄𝗵𝗲𝗿𝗲𝗜𝗻𝘁𝗲𝗴𝗲𝗿𝗜𝗻𝗥𝗮𝘄() which is faster than 𝘄𝗵𝗲𝗿𝗲𝗜𝗻().
+> 當目標值為整數時，不要使用 `whereIn()` 方法來加載大範圍的數據，<br/>
+> 而是使用 `whereIntegerInRaw()` 方法，這比 `whereIn()` 更快。
 
 ```php
-// instead of using whereIn
+// 不要使用whereIn方法來加載大範圍的數據
 Product::whereIn('id', range(1, 50))->get();
 
-// use WhereIntegerInRaw method for faster loading
+// 使用 WhereIntegerInRaw 方法來加載更快
 Product::whereIntegerInRaw('id', range(1, 50))->get();
 ```
 
-Tip given by [@LaraShout](https://twitter.com/LaraShout)
+源至 [@LaraShout](https://twitter.com/LaraShout)
 
-### Load data completed between two timestamps
+<h3 id="load-data-completed-between-two-timestamps">載入資料完成於兩個時間戳記之間</h3>
 
-Use 𝘄𝗵𝗲𝗿𝗲𝗕𝗲𝘁𝘄𝗲𝗲𝗻 to load records between two timestamps, you can pass the fallback value using the null coalescing operator (??).
+> 使用 `whereBetween` 在兩個時間戳記之間加載記錄，您可以使用空值合併運算符（??）傳遞回退值。
 
 ```php
-// Load tasks completed between two timestamps
+// 讀取 task 的 completed_at 在兩個時間戳記之間的任務   
 Task::whereBetween('completed_at', [
     $request->from ?? '2023-01-01',
     $request->to ??  today()->toDateTimeString(),
 ]);
 ```
 
-Tip given by [@LaraShout](https://twitter.com/LaraShout)
+源至 [@LaraShout](https://twitter.com/LaraShout)
 
-### Pass a raw query to order your results
+<h3 id="pass-a-raw-query-to-order-your-results">傳遞原始查詢以排序你的結果</h3>
 
-You can pass a raw query to order your results.
-
-For example, sorting tasks by how long before the due date they were completed.
+> 您可以傳遞原始查詢以排序您的結果。<br/>
+> 例如，按照截止日期前完成任務的時間排序任務。
 
 ```php
-// Sort tasks by the task was completed before the due date
+// 依照任務在截止日期前完成的時間排序任務
 $tasks = Task::query()
     ->whereNotNull('completed_at')
     ->orderByRaw('due_at - completed_at DESC')
     ->get();
 ```
 
-Tip given by [@cosmeescobedo](https://twitter.com/cosmeescobedo)
+源至 [@cosmeescobedo](https://twitter.com/cosmeescobedo)
 
-### Eloquent where date methods
+<h3 id="eloquent-where-date-methods">Eloquent 的 where date 方法</h3>
 
-In Eloquent, check the date with functions `whereDay()`, `whereMonth()`, `whereYear()`, `whereDate()` and `whereTime()`.
+> 在 Eloquent 中，使用 `whereDay()`、`whereMonth()`、`whereYear()`、`whereDate()` 和 `whereTime()` 函數檢查日期。
 
 ```php
 $products = Product::whereDate('created_at', '2018-01-31')->get();
@@ -353,18 +349,20 @@ $products = Product::whereYear('created_at', date('Y'))->get();
 $products = Product::whereTime('created_at', '=', '14:13:58')->get();
 ```
 
-### Increments and decrements
+<h3 id="increments-and-decrements">遞增和遞減</h3>
 
-If you want to increment some DB column in some table, just use `increment()` function. Oh, and you can increment not only by 1, but also by some number, like 50.
+> 如果要遞增某個表中的某個列，只需使用 `increment()` 函數。<br/>
+> 哦，你不僅可以遞增 1，還可以遞增某個數字，例如 50。
 
 ```php
-Post::find($post_id)->increment('view_count');
-User::find($user_id)->increment('points', 50);
+Post::find($post_id)->increment('view_count'); // 貼文觀看次數 +1
+User::find($user_id)->increment('points', 50); // 使用者積分 +50
 ```
 
-### No timestamp columns
+<h3 id="no-timestamp-columns">沒有時間戳記欄位</h3>
 
-If your DB table doesn't contain timestamp fields `created_at` and `updated_at`, you can specify that Eloquent model wouldn't use them, with `$timestamps = false` property.
+> 如果您的資料庫表不包含時間戳記欄位 `created_at` 和 `updated_at`，<br/>
+> 您可以指定 Eloquent 模型不使用它們，使用 `$timestamps = false` 屬性。
 
 ```php
 class Company extends Model
@@ -373,41 +371,42 @@ class Company extends Model
 }
 ```
 
-### Soft-deletes: multiple restore
+<h3 id="soft-deletes-multiple-restore">軟刪除: 多重還原</h3>
 
-When using soft-deletes, you can restore multiple rows in one sentence.
+> 使用軟刪除時，您可以在一個語句中還原多個行。
 
 ```php
 Post::onlyTrashed()->where('author_id', 1)->restore();
 ```
 
-### Model all: columns
+<h3 id="model-all-columns">Model all: 欄位</h3>
 
-When calling Eloquent's `Model::all()`, you can specify which columns to return.
+> 當調用 Eloquent 的 `Model::all()` 時，您可以指定要返回的欄位。
 
 ```php
 $users = User::all(['id', 'name', 'email']);
 ```
 
-### To Fail or not to Fail
+<h3 id="to-fail-or-not-to-fail">要失敗或不要失敗</h3>
 
-In addition to `findOrFail()`, there's also Eloquent method `firstOrFail()` which will return 404 page if no records for query are found.
+> 如果您不想在找不到記錄時引發異常，可以使用 `find()` 方法的 `null` 返回值。<br>
+> 除了 `findOrFail()` 之外,Eloquent 還有 `firstOrFail()` 方法,如果查詢找不到任何記錄,它將返回 404 頁面。
 
 ```php
 $user = User::where('email', 'povilas@laraveldaily.com')->firstOrFail();
 ```
 
-### Column name change
+<h3 id="column-name-change">欄位名稱變更</h3>
 
-In Eloquent Query Builder, you can specify "as" to return any column with a different name, just like in plain SQL query.
+> 在 Eloquent 查詢生成器中，您可以指定 "as" 來返回任何具有不同名稱的列，就像在普通 SQL 查詢中一樣。
 
 ```php
 $users = DB::table('users')->select('name', 'email as user_email')->get();
 ```
 
-### Map query results
+<h3 id="map-query-results">映射查詢結果</h3>
 
-After Eloquent query you can modify rows by using `map()` function in Collections.
+> 在 Eloquent 查詢之後，您可以使用集合中的 `map()` 函數修改行。
 
 ```php
 $users = User::where('role_id', 1)->get()->map(function (User $user) {
@@ -416,9 +415,9 @@ $users = User::where('role_id', 1)->get()->map(function (User $user) {
 });
 ```
 
-### Change Default Timestamp Fields
+<h3 id="change-default-timestamp-fields">變更預設時間戳記欄位</h3>
 
-What if you’re working with non-Laravel database and your timestamp columns are named differently? Maybe, you have create_time and update_time. Luckily, you can specify them in the model, too:
+> 如果您的時間戳記列名稱不是 `created_at` 和 `updated_at`，您可以在模型中指定它們。
 
 ```php
 class Role extends Model
@@ -428,38 +427,26 @@ class Role extends Model
 }
 ```
 
-### Quick Order by created_at
+<h3 id="quick-order-by-created_at">依 created_at 快速排序</h3>
 
-Instead of:
-
-```php
-User::orderBy('created_at', 'desc')->get();
-```
-
-You can do it quicker:
+> 如 1 所述，您可以使用 `orderBy()` 方法來排序結果。<br/>
+> 預設情況下，`latest()` 將按 `created_at` 排序。<br/>
+> 還有一個相反的方法 `oldest()`，它將按 `created_at` 升序排序。<br/>
+> 此外，您可以指定另一個列來排序。例如，如果您想使用 `updated_at`，可以這樣做：
 
 ```php
-User::latest()->get();
-```
+User::orderBy('created_at', 'desc')->get(); // 1
 
-By default, `latest()` will order by `created_at`.
+User::latest('created_at')->get(); // desc
+User::oldest('created_at')->get(); // asc
 
-There is an opposite method `oldest()` which would order by `created_at` ascending:
-
-```php
-User::oldest()->get();
-```
-
-Also, you can specify another column to order by. For example, if you want to use `updated_at`, you can do this:
-
-```php
 $lastUpdatedUser = User::latest('updated_at')->first();
 ```
 
-### Automatic Column Value When Creating Records
+<h3 id="automatic-column-value-when-creating-records">建立紀錄時自動填入欄位值</h3>
 
-If you want to generate some DB column value when creating record, add it to model's `boot()` method.
-For example, if you have a field "position" and want to assign the next available position to the new record (like `Country::max('position') + 1)`, do this:
+> 如果您想在創建記錄時生成一些 DB 列值，請將其添加到模型的 `boot()` 方法中。<br/>
+> 例如，如果您有一個字段 "position"，並且想要將下一個可用位置分配給新記錄（如 `Country::max('position') + 1`），請執行以下操作：
 
 ```php
 class Country extends Model {
@@ -474,9 +461,10 @@ class Country extends Model {
 }
 ```
 
-### DB Raw Query Calculations Run Faster
+<h3 id="db-raw-query-calculations-run-faster">DB 原生查詢計算運行更快</h3>
 
-Use SQL raw queries like `whereRaw()` method, to make some DB-specific calculations directly in query, and not in Laravel, usually the result will be faster. Like, if you want to get users that were active 30+ days after their registration, here's the code:
+> 使用 SQL 原始查詢，如 `whereRaw()` 方法，在查詢中進行一些特定於 DB 的計算，而不是在 Laravel 中進行計算，通常結果會更快。<br/>
+> 例如，如果您想要獲取在註冊後 30 天以上活動的用戶，這裡是代碼：
 
 ```php
 User::where('active', 1)
@@ -484,11 +472,10 @@ User::where('active', 1)
     ->get();
 ```
 
-### More than One Scope
+<h3 id="more-than-one-scope">多於一個 scope</h3>
 
-You can combine and chain Query Scopes in Eloquent, using more than one scope in a query.
-
-Model:
+> 您可以組合和鏈接 Eloquent 中的查詢範圍，使用多個範圍在查詢中。<br/>
+> Model file (like `\App\Models\User.php`)：
 
 ```php
 public function scopeActive($query) {
@@ -500,15 +487,15 @@ public function scopeRegisteredWithinDays($query, $days) {
 }
 ```
 
-Some Controller:
+有些 Controller：
 
 ```php
 $users = User::registeredWithinDays(30)->active()->get();
 ```
 
-### No Need to Convert Carbon
+<h3 id="no-need-to-convert-carbon">無需轉換 Carbon</h3>
 
-If you're performing `whereDate()` and check today's records, you can use Carbon's `now()` and it will automatically be transformed to date. No need to do `->toDateString()`.
+> 如果您正在執行 `whereDate()` 並檢查今天的記錄，您可以使用 Carbon 的 `now()`，它將自動轉換為日期。無需執行 `->toDateString()`。
 
 ```php
 // Instead of
@@ -517,7 +504,7 @@ $todayUsers = User::whereDate('created_at', now()->toDateString())->get();
 $todayUsers = User::whereDate('created_at', now())->get();
 ```
 
-### Grouping by First Letter
+<h3 id="Grouping by First Letter">Grouping by First Letter</h3>
 
 You can group Eloquent results by any custom condition, here's how to group by first letter of user's name:
 
@@ -527,7 +514,7 @@ $users = User::all()->groupBy(function($item) {
 });
 ```
 
-### Never Update the Column
+<h3 id="Never Update the Column">Never Update the Column</h3>
 
 If you have DB column which you want to be set only once and never updated again, you can set that restriction on Eloquent Model, with a mutator:
 
@@ -562,7 +549,7 @@ class User extends Model
 }
 ```
 
-### Find Many
+<h3 id="Find Many">Find Many</h3>
 
 Eloquent method `find()` may accept multiple parameters, and then it returns a Collection of all records found, not just one Model:
 
@@ -579,7 +566,7 @@ return Product::whereIn('id', $this->productIDs)->get();
 return Product::find($this->productIDs)
 ```
 
-Tip given by [@tahiriqbalnajam](https://twitter.com/tahiriqbalnajam/status/1436120403655671817)
+源至 [@tahiriqbalnajam](https://twitter.com/tahiriqbalnajam/status/1436120403655671817)
 
 Incase of integer, use `whereIn` with limited data range only instead use `whereIntegerInRaw` which is faster then `whereIn`.
 
@@ -589,9 +576,9 @@ Product::whereIn('id', range(1, 50))->get();
 Product::whereIntegerInRaw('id', range(1, 50))->get();
 ```
 
-Tip given by [@sachinkiranti](https://raisachin.com.np)
+源至 [@sachinkiranti](https://raisachin.com.np)
 
-### Find Many and return specific columns
+<h3 id="Find Many and return specific columns">Find Many and return specific columns</h3>
 
 Eloquent method `find()` may accept multiple parameters, and then it returns a Collection of all records found with specified columns, not all columns of model:
 
@@ -602,9 +589,9 @@ $user = User::find(1, ['first_name', 'email']);
 $users = User::find([1,2,3], ['first_name', 'email']);
 ```
 
-Tip given by [@tahiriqbalnajam](https://github.com/tahiriqbalnajam)
+源至 [@tahiriqbalnajam](https://github.com/tahiriqbalnajam)
 
-### Find by Key
+<h3 id="Find by Key">Find by Key</h3>
 
 You can also find multiple records with `whereKey()` method which takes care of which field is exactly your primary key (`id` is the default, but you may override it in Eloquent model):
 
@@ -612,7 +599,7 @@ You can also find multiple records with `whereKey()` method which takes care of 
 $users = User::whereKey([1,2,3])->get();
 ```
 
-### Use UUID instead of auto-increment
+<h3 id="Use UUID instead of auto-increment">Use UUID instead of auto-increment</h3>
 
 You don't want to use auto incrementing ID in your model?
 
@@ -693,7 +680,7 @@ class User extends Model
 }
 ```
 
-### Sub-selects in Laravel Way
+<h3 id="Sub-selects in Laravel Way">Sub-selects in Laravel Way</h3>
 
 From Laravel 6, you can use addSelect() in Eloquent statement, and do some calculation to that added column.
 
@@ -705,7 +692,7 @@ return Destination::addSelect(['last_flight' => Flight::select('name')
 ])->get();
 ```
 
-### Hide Some Columns
+<h3 id="Hide Some Columns">Hide Some Columns</h3>
 
 When doing Eloquent query, if you want to hide specific field from being returned, one of the quickest ways is to add `->makeHidden()` on Collection result.
 
@@ -713,7 +700,7 @@ When doing Eloquent query, if you want to hide specific field from being returne
 $users = User::all()->makeHidden(['email_verified_at', 'deleted_at']);
 ```
 
-### Exact DB Error
+<h3 id="Exact DB Error">Exact DB Error</h3>
 
 If you want to catch Eloquent Query exceptions, use specific `QueryException` instead default Exception class, and you will be able to get the exact SQL code of the error.
 
@@ -727,7 +714,7 @@ try {
 }
 ```
 
-### Soft-Deletes with Query Builder
+<h3 id="Soft-Deletes with Query Builder">Soft-Deletes with Query Builder</h3>
 
 Don't forget that soft-deletes will exclude entries when you use Eloquent, but won't work if you use Query Builder.
 
@@ -742,7 +729,7 @@ $users = User::withTrashed()->get();
 $users = DB::table('users')->get();
 ```
 
-### Good Old SQL Query
+<h3 id="Good Old SQL Query">Good Old SQL Query</h3>
 
 If you need to execute a simple SQL query, without getting any results - like changing something in DB schema, you can just do `DB::statement()`.
 
@@ -751,7 +738,7 @@ DB::statement('DROP TABLE users');
 DB::statement('ALTER TABLE projects AUTO_INCREMENT=123');
 ```
 
-### Use DB Transactions
+<h3 id="Use DB Transactions">Use DB Transactions</h3>
 
 If you have two DB operations performed, and second may get an error, then you should rollback the first one, right?
 
@@ -765,7 +752,7 @@ DB::transaction(function () {
 });
 ```
 
-### Update or Create
+<h3 id="Update or Create">Update or Create</h3>
 
 If you need to check if the record exists, and then update it, or create a new record otherwise, you can do it in one sentence - use Eloquent method `updateOrCreate()`:
 
@@ -791,9 +778,9 @@ $flight = Flight::updateOrCreate(
 );
 ```
 
-### Forget Cache on Save
+<h3 id="Forget Cache on Save">Forget Cache on Save</h3>
 
-Tip given by [@pratiksh404](https://github.com/pratiksh404)
+源至 [@pratiksh404](https://github.com/pratiksh404)
 
 If you have cache key like `posts` that gives collection, and you want to forget that cache key on new store or update, you can call static `saved` function on your model:
 
@@ -811,9 +798,9 @@ class Post extends Model
 }
 ```
 
-### Change Format Of Created_at and Updated_at
+<h3 id="Change Format Of Created_at and Updated_at">Change Format Of Created_at and Updated_at</h3>
 
-Tip given by [@syofyanzuhad](https://github.com/syofyanzuhad)
+源至 [@syofyanzuhad](https://github.com/syofyanzuhad)
 
 To change the format of `created_at` you can add a method in your model like this:
 
@@ -861,9 +848,9 @@ public function getUpdatedAtFormattedAttribute()
 So you can use it `$entry->updated_at_formatted` when it's needed.
 It will return the `updated_at` attribute like this: `04:19 23, Aug 2020`.
 
-### Storing Array Type into JSON
+<h3 id="Storing Array Type into JSON">Storing Array Type into JSON</h3>
 
-Tip given by [@pratiksh404](https://github.com/pratiksh404)
+源至 [@pratiksh404](https://github.com/pratiksh404)
 
 If you have input field which takes an array and you have to store it as a JSON, you can use `$casts` property in your model. Here `images` is a JSON attribute.
 
@@ -875,7 +862,7 @@ protected $casts = [
 
 So you can store it as a JSON, but when retrieved from DB, it can be used as an array.
 
-### Make a Copy of the Model
+<h3 id="Make a Copy of the Model">Make a Copy of the Model</h3>
 
 If you have two very similar Models (like shipping address and billing address) and you need to make a copy of one to another, you can use `replicate()` method and change some properties after that.
 
@@ -897,7 +884,7 @@ $billing = $shipping->replicate()->fill([
 $billing->save();
 ```
 
-### Reduce Memory
+<h3 id="Reduce Memory">Reduce Memory</h3>
 
 Sometimes we need to load a huge amount of data into memory. For example:
 
@@ -916,7 +903,7 @@ $orders = Order::toBase()->get();
 By calling this method, it will fetch the data from the database, but it will not prepare the Model class.
 Keep in mind it is often a good idea to pass an array of fields to the get method, preventing all fields to be fetched from the database.
 
-### Force query without $fillable/$guarded
+<h3 id="Force query without $fillable/$guarded">Force query without $fillable/$guarded</h3>
 
 If you create a Laravel boilerplate as a "starter" for other devs, and you're not in control of what THEY would later fill in Model's $fillable/$guarded, you may use forceFill()
 
@@ -932,7 +919,7 @@ $team->forceFill(['name' => $request->name])
 
 This will "ignore" the `$fillable` for that one query and will execute no matter what.
 
-### 3-level structure of parent-children
+<h3 id="3-level structure of parent-children">3-level structure of parent-children</h3>
 
 If you have a 3-level structure of parent-children, like categories in an e-shop, and you want to show the number of products on the third level, you can use `with('yyy.yyy')` and then add `withCount()` as a condition
 
@@ -991,7 +978,7 @@ class Category extends Model
 </ul>
 ```
 
-### Perform any action on failure
+<h3 id="Perform any action on failure">Perform any action on failure</h3>
 
 When looking for a record, you may want to perform some actions if it's not found.
 In addition to `->firstOrFail()` which just throws 404, you can perform any action on failure, just do `->firstOr(function() { ... })`
@@ -1002,7 +989,7 @@ $model = Flight::where('legs', '>', 3)->firstOr(function () {
 })
 ```
 
-### Check if record exists or show 404
+<h3 id="Check if record exists or show 404">Check if record exists or show 404</h3>
 
 Don't use find() and then check if the record exists. Use findOrFail().
 
@@ -1021,7 +1008,7 @@ $product = Product::findOrFail($id); // shows 404 if not found
 $product->update($productDataArray);
 ```
 
-### Abort if condition failed
+<h3 id="Abort if condition failed">Abort if condition failed</h3>
 
 `abort_if()` can be used as shorter way to check condition and throw an error page.
 
@@ -1040,7 +1027,7 @@ $product = Product::findOrFail($id);
 abort_if ($product->user_id != auth()->user()->id, 403)
 ```
 
-### Fill a column automatically while you persist data to the database
+<h3 id="Fill a column automatically while you persist data to the database">Fill a column automatically while you persist data to the database</h3>
 
 If you want to fill a column automatically while you persist data to the database (e.g: slug) use Model Observer instead of hard code it every time
 
@@ -1061,9 +1048,9 @@ class Article extends Model
 }
 ```
 
-Tip given by [@sky_0xs](https://twitter.com/sky_0xs/status/1432390722280427521)
+源至 [@sky_0xs](https://twitter.com/sky_0xs/status/1432390722280427521)
 
-### Extra information about the query
+<h3 id="Extra information about the query">Extra information about the query</h3>
 
 You can call the `explain()` method on queries to know extra information about the query.
 
@@ -1092,9 +1079,9 @@ Illuminate\Support\Collection {#5344
 }
 ```
 
-Tip given by [@amit_merchant](https://twitter.com/amit_merchant/status/1432277631320223744)
+源至 [@amit_merchant](https://twitter.com/amit_merchant/status/1432277631320223744)
 
-### Using the doesntExist() method in Laravel
+<h3 id="Using the doesntExist() method in Laravel">Using the doesntExist() method in Laravel</h3>
 
 ```php
 // This works
@@ -1112,9 +1099,9 @@ if ( $model->where('status', 'pending')->doesntExist() ) {
 }
 ```
 
-Tip given by [@ShawnHooper](https://twitter.com/ShawnHooper/status/1435686220542234626)
+源至 [@ShawnHooper](https://twitter.com/ShawnHooper/status/1435686220542234626)
 
-### Trait that you want to add to a few Models to call their boot() method automatically
+<h3 id="Trait that you want to add to a few Models to call their boot() method automatically">Trait that you want to add to a few Models to call their boot() method automatically</h3>
 
 If you have a Trait that you want to add to a few Models to call their `boot()` method automatically, you can call Trait's method as boot[TraitName]
 
@@ -1148,7 +1135,7 @@ trait MultiTenantModelTrait
 }
 ```
 
-### There are two common ways of determining if a table is empty in Laravel
+<h3 id="There are two common ways of determining if a table is empty in Laravel">There are two common ways of determining if a table is empty in Laravel</h3>
 
 There are two common ways of determining if a table is empty in Laravel. Calling `exists()` or `count()` directly on the model!
 
@@ -1167,9 +1154,9 @@ public function index()
 }
 ```
 
-Tip given by [@aschmelyun](https://twitter.com/aschmelyun/status/1440641525998764041)
+源至 [@aschmelyun](https://twitter.com/aschmelyun/status/1440641525998764041)
 
-### How to prevent “property of non-object” error
+<h3 id="How to prevent “property of non-object” error">How to prevent “property of non-object” error</h3>
 
 ```php
 // BelongsTo Default Models
@@ -1194,9 +1181,9 @@ public function author() {
 }
 ```
 
-Tip given by [@coderahuljat](https://twitter.com/coderahuljat/status/1440556610837876741)
+源至 [@coderahuljat](https://twitter.com/coderahuljat/status/1440556610837876741)
 
-### Get original attributes after mutating an Eloquent record
+<h3 id="Get original attributes after mutating an Eloquent record">Get original attributes after mutating an Eloquent record</h3>
 
 Get original attributes after mutating an Eloquent record you can get the original attributes by calling getOriginal()
 
@@ -1208,9 +1195,9 @@ $user->getOriginal('name'); // John
 $user->getOriginal(); // Original $user record
 ```
 
-Tip given by [@devThaer](https://twitter.com/devThaer/status/1442133797223403521)
+源至 [@devThaer](https://twitter.com/devThaer/status/1442133797223403521)
 
-### A simple way to seed a database
+<h3 id="A simple way to seed a database">A simple way to seed a database</h3>
 
 A simple way to seed a database in Laravel with a .sql dump file
 
@@ -1220,9 +1207,9 @@ DB::unprepared(
 );
 ```
 
-Tip given by [@w3Nicolas](https://twitter.com/w3Nicolas/status/1447902369388249091)
+源至 [@w3Nicolas](https://twitter.com/w3Nicolas/status/1447902369388249091)
 
-### The crossJoinSub method of the query constructor
+<h3 id="The crossJoinSub method of the query constructor">The crossJoinSub method of the query constructor</h3>
 
 Using the CROSS JOIN subquery
 
@@ -1238,9 +1225,9 @@ DB::table('orders')
     ->get();
 ```
 
-Tip given by [@PascalBaljet](https://twitter.com/pascalbaljet)
+源至 [@PascalBaljet](https://twitter.com/pascalbaljet)
 
-### Belongs to Many Pivot table naming
+<h3 id="Belongs to Many Pivot table naming">Belongs to Many Pivot table naming</h3>
 
 To determine the table name of the relationship's intermediate table, Eloquent will join the two related model names in alphabetical order.
 
@@ -1286,9 +1273,9 @@ class Post extends Model
 }
 ```
 
-Tip given by [@iammikek](https://twitter.com/iammikek)
+源至 [@iammikek](https://twitter.com/iammikek)
 
-### Order by Pivot Fields
+<h3 id="Order by Pivot Fields">Order by Pivot Fields</h3>
 
 `BelongsToMany::orderByPivot()` allows you to directly sort the results of a BelongsToMany relationship query.
 
@@ -1323,9 +1310,9 @@ public function getPostTags($id)
 }
 ```
 
-Tip given by [@PascalBaljet](https://twitter.com/pascalbaljet)
+源至 [@PascalBaljet](https://twitter.com/pascalbaljet)
 
-### Find a single record from a database
+<h3 id="Find a single record from a database">Find a single record from a database</h3>
 
 The `sole()` method will return only one record that matches the criteria. If no such entry is found, then a `NoRecordsFoundException` will be thrown. If multiple records are found, then a `MultipleRecordsFoundException` will be thrown.
 
@@ -1333,9 +1320,9 @@ The `sole()` method will return only one record that matches the criteria. If no
 DB::table('products')->where('ref', '#123')->sole();
 ```
 
-Tip given by [@PascalBaljet](https://twitter.com/pascalbaljet)
+源至 [@PascalBaljet](https://twitter.com/pascalbaljet)
 
-### Automatic records chunking
+<h3 id="Automatic records chunking">Automatic records chunking</h3>
 
 Similar to `each()` method, but easier to use. Automatically splits the result into parts (chunks).
 
@@ -1346,9 +1333,9 @@ return User::orderBy('name')->chunkMap(fn ($user) => [
 ]), 25);
 ```
 
-Tip given by [@PascalBaljet](https://twitter.com/pascalbaljet)
+源至 [@PascalBaljet](https://twitter.com/pascalbaljet)
 
-### Updating the model without dispatching events
+<h3 id="Updating the model without dispatching events">Updating the model without dispatching events</h3>
 
 Sometimes you need to update the model without sending any events. We can now do this with the `updateQuietly()` method, which under the hood uses the `saveQuietly()` method.
 
@@ -1356,9 +1343,9 @@ Sometimes you need to update the model without sending any events. We can now do
 $flight->updateQuietly(['departed' => false]);
 ```
 
-Tip given by [@PascalBaljet](https://twitter.com/pascalbaljet)
+源至 [@PascalBaljet](https://twitter.com/pascalbaljet)
 
-### Periodic cleaning of models from obsolete records
+<h3 id="Periodic cleaning of models from obsolete records">Periodic cleaning of models from obsolete records</h3>
 
 To periodically clean models of obsolete records. With this trait, Laravel will do this automatically, only you need to adjust the frequency of the `model:prune` command in the Kernel class.
 
@@ -1392,9 +1379,9 @@ protected function pruning()
 }
 ```
 
-Tip given by [@PascalBaljet](https://twitter.com/pascalbaljet)
+源至 [@PascalBaljet](https://twitter.com/pascalbaljet)
 
-### Immutable dates and casting to them
+<h3 id="Immutable dates and casting to them">Immutable dates and casting to them</h3>
 
 Laravel 8.53 introduces the `immutable_date` and `immutable_datetime` castes that convert dates to `Immutable`.
 
@@ -1410,9 +1397,9 @@ class User extends Model
 }
 ```
 
-Tip given by [@PascalBaljet](https://twitter.com/pascalbaljet)
+源至 [@PascalBaljet](https://twitter.com/pascalbaljet)
 
-### The findOrFail method also accepts a list of ids
+<h3 id="The findOrFail method also accepts a list of ids">The findOrFail method also accepts a list of ids</h3>
 
 The findOrFail method also accepts a list of ids. If any of these ids are not found, then it "fails".
 
@@ -1436,9 +1423,9 @@ $users = User::findOrFail([1, 2, 3]);
 User::findOrFail([1, 2, 3, 99]);
 ```
 
-Tip given by [@timacdonald87](https://twitter.com/timacdonald87/status/1457499557684604930)
+源至 [@timacdonald87](https://twitter.com/timacdonald87/status/1457499557684604930)
 
-### Prunable trait to automatically remove models from your database
+<h3 id="Prunable trait to automatically remove models from your database">Prunable trait to automatically remove models from your database</h3>
 
 New in Laravel 8.50: You can use the Prunable trait to automatically remove models from your database. For example, you can permanently remove soft deleted models after a few days.
 
@@ -1469,7 +1456,7 @@ $schedule->command(PruneCommand::class)->daily();
 
 Tip by [@Philo01](https://twitter.com/Philo01/status/1457626443782008834)
 
-### withAggregate method
+<h3 id="withAggregate method">withAggregate method</h3>
 
 Under the hood, the withAvg/withCount/withSum and other methods in Eloquent use the 'withAggregate' method. You can use this method to add a subselect based on a relationship
 
@@ -1493,9 +1480,9 @@ $posts = Post::withAggregate('user', 'name')->get();
 $posts->first()->user_name;
 ```
 
-Tip given by [@pascalbaljet](https://twitter.com/pascalbaljet/status/1457702666352594947)
+源至 [@pascalbaljet](https://twitter.com/pascalbaljet/status/1457702666352594947)
 
-### Date convention
+<h3 id="Date convention">Date convention</h3>
 
 Using the `something_at` convention instead of just a boolean in Laravel models gives you visibility into when a flag was changed – like when a product went live.
 
@@ -1517,9 +1504,9 @@ protected $dates = [
 ];
 ```
 
-Tip given by [@alexjgarrett](https://twitter.com/alexjgarrett/status/1459174062132019212)
+源至 [@alexjgarrett](https://twitter.com/alexjgarrett/status/1459174062132019212)
 
-### Eloquent multiple upserts
+<h3 id="Eloquent multiple upserts">Eloquent multiple upserts</h3>
 
 The upsert() method will insert or update multiple records.
 
@@ -1534,9 +1521,9 @@ Flight::upsert([
 ], ['departure', 'destination'], ['price']);
 ```
 
-Tip given by [@mmartin_joo](https://twitter.com/mmartin_joo/status/1461591319516647426)
+源至 [@mmartin_joo](https://twitter.com/mmartin_joo/status/1461591319516647426)
 
-### Retrieve the Query Builder after filtering the results
+<h3 id="Retrieve the Query Builder after filtering the results">Retrieve the Query Builder after filtering the results</h3>
 
 To retrieve the Query Builder after filtering the results: you can use `->toQuery()`.
 
@@ -1558,9 +1545,9 @@ if ($nthUsers->isNotEmpty()) {
 }
 ```
 
-Tip given by [@RBilloir](https://twitter.com/RBilloir/status/1462529494917566465)
+源至 [@RBilloir](https://twitter.com/RBilloir/status/1462529494917566465)
 
-### Custom casts
+<h3 id="Custom casts">Custom casts</h3>
 
 You can create custom casts to have Laravel automatically format your Eloquent model data. Here's an example that capitalises a user's name when it is retrieved or changed.
 
@@ -1587,9 +1574,9 @@ class User extends Model
 }
 ```
 
-Tip given by [@mattkingshott](https://twitter.com/mattkingshott/status/1462828232206659586)
+源至 [@mattkingshott](https://twitter.com/mattkingshott/status/1462828232206659586)
 
-### Order based on a related model's average or count
+<h3 id="Order based on a related model's average or count">Order based on a related model's average or count</h3>
 
 Did you ever need to order based on a related model's average or count?
 
@@ -1604,9 +1591,9 @@ public function bestBooks()
 }
 ```
 
-Tip given by [@mmartin_joo](https://twitter.com/mmartin_joo/status/1466769691385335815)
+源至 [@mmartin_joo](https://twitter.com/mmartin_joo/status/1466769691385335815)
 
-### Return transactions result
+<h3 id="Return transactions result">Return transactions result</h3>
 
 If you have a DB transaction and want to return its result, there are at least two ways, see the example
 
@@ -1627,7 +1614,7 @@ $invoice = DB::transaction(function () {
 });
 ```
 
-### Remove several global scopes from query
+<h3 id="Remove several global scopes from query">Remove several global scopes from query</h3>
 
 When using Eloquent Global Scopes, you not only can use MULTIPLE scopes, but also remove certain scopes when you don't need them, by providing the array to `withoutGlobalScopes()`
 
@@ -1643,7 +1630,7 @@ User::withoutGlobalScopes([
 ])->get();
 ```
 
-### Order JSON column attribute
+<h3 id="Order JSON column attribute">Order JSON column attribute</h3>
 
 With Eloquent you can order results by a JSON column attribute
 
@@ -1656,9 +1643,9 @@ $bikes = Bike::where('athlete_id', $this->athleteId)
         ->get();
 ```
 
-Tip given by [@brbcoding](https://twitter.com/brbcoding/status/1473353537983856643)
+源至 [@brbcoding](https://twitter.com/brbcoding/status/1473353537983856643)
 
-### Get single column's value from the first result
+<h3 id="Get single column's value from the first result">Get single column's value from the first result</h3>
 
 You can use `value()` method to get single column's value from the first result of a query
 
@@ -1673,9 +1660,9 @@ Integration::where('name', 'foo')->value('active');
 Integration::where('name', 'foo')->valueOrFail('active')';
 ```
 
-Tip given by [@justsanjit](https://twitter.com/justsanjit/status/1475572530215796744)
+源至 [@justsanjit](https://twitter.com/justsanjit/status/1475572530215796744)
 
-### Check if altered value changed key
+<h3 id="Check if altered value changed key">Check if altered value changed key</h3>
 
 Ever wanted to know if the changes you've made to a model have altered the value for a key? No problem, simply reach for originalIsEquivalent.
 
@@ -1692,9 +1679,9 @@ $user->fill(['name' => 'David']); // Or set via fill
 $user->originalIsEquivalent('name'); // false
 ```
 
-Tip given by [@mattkingshott](https://twitter.com/mattkingshott/status/1475843987181379599)
+源至 [@mattkingshott](https://twitter.com/mattkingshott/status/1475843987181379599)
 
-### New way to define accessor and mutator
+<h3 id="New way to define accessor and mutator">New way to define accessor and mutator</h3>
 
 New way to define attribute accessors and mutators in Laravel 8.77:
 
@@ -1719,9 +1706,9 @@ protected function title(): Attribute
 }
 ```
 
-Tip given by [@Teacoders](https://twitter.com/Teacoders/status/1473697808456851466)
+源至 [@Teacoders](https://twitter.com/Teacoders/status/1473697808456851466)
 
-### Another way to do accessors and mutators
+<h3 id="Another way to do accessors and mutators">Another way to do accessors and mutators</h3>
 
 In case you are going to use the same accessors and mutators in many models , You can use custom casts instead.
 
@@ -1778,9 +1765,9 @@ class User extends Authenticatable
 
 ```
 
-Tip given by [@AhmedRezk](https://github.com/AhmedRezk59)
+源至 [@AhmedRezk](https://github.com/AhmedRezk59)
 
-### When searching for the first record, you can perform some actions
+<h3 id="When searching for the first record, you can perform some actions">When searching for the first record, you can perform some actions</h3>
 
 When searching for the first record, you want to perform some actions, when you don't find it. `firstOrFail()` throws a 404 Exception.
 
@@ -1797,9 +1784,9 @@ $book = Book::whereCount('authors')
             });
 ```
 
-Tip given by [@bhaidar](https://twitter.com/bhaidar/status/1487757487566639113/)
+源至 [@bhaidar](https://twitter.com/bhaidar/status/1487757487566639113/)
 
-### Directly convert created_at date to human readable format
+<h3 id="Directly convert created_at date to human readable format">Directly convert created_at date to human readable format</h3>
 
 Did you know you can directly convert created_at date to human readable format like 1 minute ago, 1 month ago using diffForHumans() function. Laravel eloquent by default enables Carbon instance on created_at field.
 
@@ -1811,9 +1798,9 @@ $result = $post->created_at->diffForHumans();
 // 1 Minutes ago, 2 Week ago etc..as per created time
 ```
 
-Tip given by [@vishal\_\_2931](https://twitter.com/vishal__2931/status/1488369014980038662)
+源至 [@vishal\_\_2931](https://twitter.com/vishal__2931/status/1488369014980038662)
 
-### Ordering by an Eloquent Accessor
+<h3 id="Ordering by an Eloquent Accessor">Ordering by an Eloquent Accessor</h3>
 
 Ordering by an Eloquent Accessor! Yes, that's doable. Instead of ordering by the accessor on the DB level, we order by the accessor on the returned Collection.
 
@@ -1864,9 +1851,9 @@ class UserController extends Controller
 
 `sortByDesc` and `sortBy` are methods on the Collection
 
-Tip given by [@bhaidar](https://twitter.com/bhaidar/status/1490671693618053123)
+源至 [@bhaidar](https://twitter.com/bhaidar/status/1490671693618053123)
 
-### Check for specific model was created or found
+<h3 id="Check for specific model was created or found">Check for specific model was created or found</h3>
 
 If you want to check for specific model was created or found, use `wasRecentlyCreated` model attribute.
 
@@ -1882,9 +1869,9 @@ return $user->wasRecentlyCreated;
 // false for found (already on you db)
 ```
 
-Tip given by [@sky_0xs](https://twitter.com/sky_0xs/status/1491141790015320064)
+源至 [@sky_0xs](https://twitter.com/sky_0xs/status/1491141790015320064)
 
-### Laravel Scout with database driver
+<h3 id="Laravel Scout with database driver">Laravel Scout with database driver</h3>
 
 With laravel v9 you can use Laravel Scout (Search) with database driver. No more where likes!
 
@@ -1892,9 +1879,9 @@ With laravel v9 you can use Laravel Scout (Search) with database driver. No more
 $companies = Company::search(request()->get('search'))->paginate(15);
 ```
 
-Tip given by [@magarrent](https://twitter.com/magarrent/status/1493221422675767302)
+源至 [@magarrent](https://twitter.com/magarrent/status/1493221422675767302)
 
-### Make use of the value method on the query builder
+<h3 id="Make use of the value method on the query builder">Make use of the value method on the query builder</h3>
 
 Make use of the `value` method on the query builder to execute a more efficient query when you only need to retrieve a single column.
 
@@ -1906,9 +1893,9 @@ Statistic::where('user_id', 4)->first()->post_count;
 Statistic::where('user_id', 4)->value('post_count');
 ```
 
-Tip given by [@mattkingshott](https://twitter.com/mattkingshott/status/1493583444244410375)
+源至 [@mattkingshott](https://twitter.com/mattkingshott/status/1493583444244410375)
 
-### Pass array to where method
+<h3 id="Pass array to where method">Pass array to where method</h3>
 
 Laravel you can pass an array to the where method.
 
@@ -1924,9 +1911,9 @@ JobPost::where(['company' => 'laravel',
         ->get();
 ```
 
-Tip given by [@cosmeescobedo](https://twitter.com/cosmeescobedo/status/1495626752282234881)
+源至 [@cosmeescobedo](https://twitter.com/cosmeescobedo/status/1495626752282234881)
 
-### Return the primary keys from models collection
+<h3 id="Return the primary keys from models collection">Return the primary keys from models collection</h3>
 
 Did you know `modelsKeys()` eloquent collection method? It returns the primary keys from models collection.
 
@@ -1936,9 +1923,9 @@ $users = User::active()->limit(3)->get();
 $users->modelsKeys(); // [1, 2, 3]
 ```
 
-Tip given by [@iamharis010](https://twitter.com/iamharis010/status/1495816807910891520)
+源至 [@iamharis010](https://twitter.com/iamharis010/status/1495816807910891520)
 
-### Force Laravel to use eager loading
+<h3 id="Force Laravel to use eager loading">Force Laravel to use eager loading</h3>
 
 If you want to prevent a lazy loading in your app, you only need to add following line to the `boot()` method in your `AppServiceProvider`
 
@@ -1952,9 +1939,9 @@ But, if you want to enable this feature only on your local development you can c
 Model::preventLazyLoading(!app()->isProduction());
 ```
 
-Tip given by [@CatS0up](https://github.com/CatS0up)
+源至 [@CatS0up](https://github.com/CatS0up)
 
-### Make all your models mass assignable
+<h3 id="Make all your models mass assignable">Make all your models mass assignable</h3>
 
 It is not a recommended approach for security reasons, but it is possible.
 
@@ -1972,9 +1959,9 @@ Model::unguard();
 
 Now, all your models are mass assignable.
 
-Tip given by [@CatS0up](https://github.com/CatS0up)
+源至 [@CatS0up](https://github.com/CatS0up)
 
-### Hiding columns in select all statements
+<h3 id="Hiding columns in select all statements">Hiding columns in select all statements</h3>
 
 If you use Laravel v8.78 and MySQL 8.0.23 and onwards, you can define choosen columns as "invisible". Columns which are define as `invisible` will be hidden from the `select *` statements.
 
@@ -1991,9 +1978,9 @@ Schema::table('table', function (Blueprint $table) {
 
 That's it! This will make chosen column hidden from `select *` statement.
 
-Tip given by [@CatS0up](https://github.com/CatS0up)
+源至 [@CatS0up](https://github.com/CatS0up)
 
-### JSON Where Clauses
+<h3 id="JSON Where Clauses">JSON Where Clauses</h3>
 
 Laravel offers helpers to query JSON columns for databases that support them.
 
@@ -2016,9 +2003,9 @@ $users = User::query()
             ->get();
 ```
 
-Tip given by [@cosmeescobedo](https://twitter.com/cosmeescobedo/status/1509663119311663124)
+源至 [@cosmeescobedo](https://twitter.com/cosmeescobedo/status/1509663119311663124)
 
-### Get all the column names for a table
+<h3 id="Get all the column names for a table">Get all the column names for a table</h3>
 
 ```php
 DB::getSchemaBuilder()->getColumnListing('users');
@@ -2036,9 +2023,9 @@ returns [
 */
 ```
 
-Tip given by [@aaronlumsden](https://twitter.com/aaronlumsden/status/1511014229737881605)
+源至 [@aaronlumsden](https://twitter.com/aaronlumsden/status/1511014229737881605)
 
-### Compare the values of two columns
+<h3 id="Compare the values of two columns">Compare the values of two columns</h3>
 
 You can use `whereColumn` method to compare the values of two columns.
 
@@ -2048,9 +2035,9 @@ return Task::whereColumn('created_at', 'updated_at')->get();
 return Task::whereColumn('created_at', '>', 'updated_at')->get();
 ```
 
-Tip given by [@iamgurmandeep](https://twitter.com/iamgurmandeep/status/1511673260353548294)
+源至 [@iamgurmandeep](https://twitter.com/iamgurmandeep/status/1511673260353548294)
 
-### Accessor Caching
+<h3 id="Accessor Caching">Accessor Caching</h3>
 
 As of Laravel 9.6, if you have a computationally intensive accessor, you can use the shouldCache method.
 
@@ -2063,9 +2050,9 @@ public function hash(): Attribute
 }
 ```
 
-Tip given by [@cosmeescobedo](https://twitter.com/cosmeescobedo/status/1514304409563402244)
+源至 [@cosmeescobedo](https://twitter.com/cosmeescobedo/status/1514304409563402244)
 
-### New scalar() method
+<h3 id="New scalar() method">New scalar() method</h3>
 
 In Laravel 9.8.0, the `scalar()` method was added that allows you to retrieve the first column of the first row from the query result.
 
@@ -2076,9 +2063,9 @@ DB::selectOne("SELECT COUNT(CASE WHEN food = 'burger' THEN 1 END) AS burgers FRO
 DB::scalar("SELECT COUNT(CASE WHEN food = 'burger' THEN 1 END) FROM menu_items;")
 ```
 
-Tip given by [@justsanjit](https://twitter.com/justsanjit/status/1514550185837408265)
+源至 [@justsanjit](https://twitter.com/justsanjit/status/1514550185837408265)
 
-### Select specific columns
+<h3 id="Select specific columns">Select specific columns</h3>
 
 To select specific columns on a model you can use the select method -- or you can pass an array directly to the get method!
 
@@ -2089,9 +2076,9 @@ $employees = Employee::select(['name', 'title', 'email'])->get();
 $employees = Employee::get(['name', 'title', 'email']);
 ```
 
-Tip given by [@ecrmnn](https://twitter.com/ecrmnn/status/1516087672351203332)
+源至 [@ecrmnn](https://twitter.com/ecrmnn/status/1516087672351203332)
 
-### Chain conditional clauses to the query without writing if-else statements
+<h3 id="Chain conditional clauses to the query without writing if-else statements">Chain conditional clauses to the query without writing if-else statements</h3>
 
 The "when" helper in the query builder is🔥
 
@@ -2119,9 +2106,9 @@ class RatingSorter extends Sorter
 }
 ```
 
-Tip given by [@mmartin_joo](https://twitter.com/mmartin_joo/status/1521461317940350976)
+源至 [@mmartin_joo](https://twitter.com/mmartin_joo/status/1521461317940350976)
 
-### Override Connection Attribute in Models
+<h3 id="Override Connection Attribute in Models">Override Connection Attribute in Models</h3>
 
 Overriding the database connection attribute for individual models in Laravel can be a powerful technique. Here are a few use cases where you might find it especially handy:
 
@@ -2155,7 +2142,7 @@ class CustomModel extends Model
     protected $connection = 'your_custom_connection';
 }
 ```
-### Using Column Names in Where Clauses (Dynamic Where Clauses)
+<h3 id="Using Column Names in Where Clauses (Dynamic Where Clauses)">Using Column Names in Where Clauses (Dynamic Where Clauses)</h3>
 
 You can use column names in where clause to make dynamic where clauses. In the following example, we use ```whereName('John')``` instead of ```where('name', 'John')```.
 
@@ -2175,9 +2162,9 @@ class UserController extends Controller
 }
 ```
 
-Tip given by [@MNurullahSaglam](https://twitter.com/MNurullahSaglam/status/1699763337586749585)
+源至 [@MNurullahSaglam](https://twitter.com/MNurullahSaglam/status/1699763337586749585)
 
-### Using firstOrCreate()
+<h3 id="Using firstOrCreate()">Using firstOrCreate()</h3>
 
 You can use firstOrCreate() to find the first record matching the attributes or create it if it doesn't exist.
 
@@ -2219,4 +2206,4 @@ class CategoryController extends Controller
 }
 ```
 
-Tip given by [@MNurullahSaglam](https://twitter.com/MNurullahSaglam/status/1699773783748366478)
+源至 [@MNurullahSaglam](https://twitter.com/MNurullahSaglam/status/1699773783748366478)
