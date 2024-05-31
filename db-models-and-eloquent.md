@@ -27,7 +27,7 @@
 - [DB 原生查詢計算運行更快 - DB Raw Query Calculations Run Faster](#db-raw-query-calculations-run-faster)
 - [多於一個 scope - More than One Scope](#more-than-one-scope)
 - [無需轉換 Carbon - No Need to Convert Carbon](#no-need-to-convert-carbon)
-- [依首字母分組 - Grouping by First Letter](#grouping-by-first-letter) <---- here
+- [依首字母分組 - Grouping by First Letter](#grouping-by-first-letter)
 - [永不更新該欄位 - Never Update the Column](#never-update-the-column)
 - [尋找多個 - Find Many](#find-many)
 - [尋找多個並返回特定欄位 - Find Many and return specific columns](#find-many-and-return-specific-columns)
@@ -42,7 +42,7 @@
 - [更新或建立 - Update or Create](#update-or-create)
 - [儲存時刪除快取 - Forget Cache on Save](#forget-cache-on-save)
 - [變更 created_at 和 updated_at 的格式 - Change Format Of Created_at and Updated_at](#change-format-of-created_at-and-updated_at)
-- [將陣列型別儲存為 JSON - Storing Array Type into JSON](#storing-array-type-into-json)- [將陣列型別儲存為JSON - Storing Array Type into JSON](#storing-array-type-into-json)
+- [將陣列型別儲存為 JSON - Storing Array Type into JSON](#storing-array-type-into-json)
 - [製作 Model 的副本 - Make a Copy of the Model](#make-a-copy-of-the-model)
 - [減少記憶體使用量 - Reduce Memory](#reduce-memory)
 - [強制查詢時不使用 $fillable/$guarded - Force query without $fillable/$guarded](#force-query-without-fillableguarded)
@@ -51,7 +51,7 @@
 - [檢查紀錄是否存在或顯示 404 - Check if record exists or show 404](#check-if-record-exists-or-show-404)
 - [如果條件失敗則中止 - Abort if condition failed](#abort-if-condition-failed)
 - [在持久化資料到資料庫時自動填入欄位 - Fill a column automatically while you persist data to the database](#fill-a-column-automatically-while-you-persist-data-to-the-database)
-- [關於查詢的額外資訊 - Extra information about the query](#extra-information-about-the-query)
+- [關於查詢的額外資訊 - Extra information about the query](#extra-information-about-the-query) <----- here
 - [在Laravel中使用 `doesntExist()` 方法 - Using the doesntExist() method in Laravel](#using-the-doesntexist-method-in-laravel)
 - [要新增到少數幾個Model以自動呼叫其 `boot()` 方法的Trait - Trait that you want to add to a few Models to call their boot() method automatically](#trait-that-you-want-to-add-to-a-few-models-to-call-their-boot-method-automatically)
 - [在 Laravel 中有兩種常見的方式來確定表格是否為空 - There are two common ways of determining if a table is empty in Laravel](#there-are-two-common-ways-of-determining-if-a-table-is-empty-in-laravel)
@@ -504,9 +504,9 @@ $todayUsers = User::whereDate('created_at', now()->toDateString())->get();
 $todayUsers = User::whereDate('created_at', now())->get();
 ```
 
-<h3 id="Grouping by First Letter">Grouping by First Letter</h3>
+<h3 id="grouping-by-first-letter">依首字母分組</h3>
 
-You can group Eloquent results by any custom condition, here's how to group by first letter of user's name:
+> 您可以按任何自定義條件對 Eloquent 結果進行分組，以下是按用戶名的第一個字母進行分組的方法：
 
 ```php
 $users = User::all()->groupBy(function($item) {
@@ -514,11 +514,11 @@ $users = User::all()->groupBy(function($item) {
 });
 ```
 
-<h3 id="Never Update the Column">Never Update the Column</h3>
+<h3 id="never-update-the-column">永不更新該欄位</h3>
 
-If you have DB column which you want to be set only once and never updated again, you can set that restriction on Eloquent Model, with a mutator:
+> 如果您有一個 DB 列，您希望只設置一次並且永遠不再更新，您可以在 Eloquent 模型上設置該限制，使用修改器：
 
-- In version 9 and above:
+- Laravel >= 9
 
 ```php
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -534,7 +534,7 @@ class User extends Model
 }
 ```
 
-- In version 9 and below:
+- Laravel < 9
 
 ```php
 class User extends Model
@@ -549,15 +549,15 @@ class User extends Model
 }
 ```
 
-<h3 id="Find Many">Find Many</h3>
+<h3 id="Find Many">尋找多個</h3>
 
-Eloquent method `find()` may accept multiple parameters, and then it returns a Collection of all records found, not just one Model:
+> Eloquent 方法 `find()` 可以接受多個參數，然後返回找到的所有記錄的集合，而不僅僅是一個模型：
 
 ```php
 // Will return Eloquent Model
 $user = User::find(1);
 // Will return Eloquent Collection
-$users = User::find([1,2,3]);
+$users = User::find([1, 2, 3]);
 ```
 
 ```php
@@ -568,7 +568,8 @@ return Product::find($this->productIDs)
 
 源至 [@tahiriqbalnajam](https://twitter.com/tahiriqbalnajam/status/1436120403655671817)
 
-Incase of integer, use `whereIn` with limited data range only instead use `whereIntegerInRaw` which is faster then `whereIn`.
+> 您也可以使用 `whereKey()` 方法查找多個記錄，該方法會處理哪個字段確切是您的主鍵（`id` 是默認值，但您可以在 Eloquent 模型中覆蓋它）：
+> 在整數的情況下，只對有限的數據範圍使用 whereIn，而是使用 `whereIntegerInRaw`，它比 `whereIn` 更快。
 
 ```php
 Product::whereIn('id', range(1, 50))->get();
@@ -578,30 +579,31 @@ Product::whereIntegerInRaw('id', range(1, 50))->get();
 
 源至 [@sachinkiranti](https://raisachin.com.np)
 
-<h3 id="Find Many and return specific columns">Find Many and return specific columns</h3>
+<h3 id="find-many-and-return-specific-columns">尋找多個並返回特定欄位</h3>
 
-Eloquent method `find()` may accept multiple parameters, and then it returns a Collection of all records found with specified columns, not all columns of model:
+> Eloquent 的 find 接受多個傳入參數，然後返回找到的所有記錄的集合，而不僅僅是模型的所有列：
 
 ```php
-// Will return Eloquent Model with first_name and email only
+// 將會回傳 Eloquent Model，只有 first_name 和 email
 $user = User::find(1, ['first_name', 'email']);
-// Will return Eloquent Collection with first_name and email only
+// 將會回傳 Eloquent Collection，只有 first_name 和 email
 $users = User::find([1,2,3], ['first_name', 'email']);
 ```
 
 源至 [@tahiriqbalnajam](https://github.com/tahiriqbalnajam)
 
-<h3 id="Find by Key">Find by Key</h3>
+<h3 id="find-by-key">依鍵尋找</h3>
 
-You can also find multiple records with `whereKey()` method which takes care of which field is exactly your primary key (`id` is the default, but you may override it in Eloquent model):
+
+> 你可以使用 `whereKey()` 找到多筆紀錄，這個方法會處理哪個欄位確切是你的主鍵（`id` 是默認值，但你可以在 Eloquent 模型中覆蓋它）：
 
 ```php
-$users = User::whereKey([1,2,3])->get();
+$users = User::whereKey([1, 2, 3])->get();
 ```
 
-<h3 id="Use UUID instead of auto-increment">Use UUID instead of auto-increment</h3>
+<h3 id="use-uuid-instead-of-auto-increment">使用UUID而非自動遞增</h3>
 
-You don't want to use auto incrementing ID in your model?
+> 你不想在你的模型中使用自動遞增的ID嗎？
 
 Migration:
 
@@ -612,7 +614,7 @@ Schema::create('users', function (Blueprint $table) {
 });
 ```
 
-#### Laravel 9 and above:
+#### Laravel >= 9:
 
 ```php
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -630,11 +632,11 @@ $article = Article::create(['title' => 'Traveling to Europe']);
 $article->id; // "8f8e8478-9035-4d23-b9a7-62f4d2612ce5"
 ```
 
-#### Laravel 8 and below:
+#### Laravel < 9>:
 
 Model:
 
-- In PHP 7.4.0 and above:
+- PHP >= 7.4.0 (箭頭函數)
 
 ```php
 use Illuminate\Support\Str;
@@ -655,7 +657,7 @@ class User extends Model
 }
 ```
 
-- In PHP older than 7.4.0:
+- PHP < 7.4.0:
 
 ```php
 use Illuminate\Support\Str;
@@ -671,18 +673,17 @@ class User extends Model
         parent::boot();
 
         self::creating(function ($model) {
-             $model->attributes['id'] = Str::uuid();
+            $model->attributes['id'] = Str::uuid();
         });
         self::saving(function ($model) {
-             $model->attributes['id'] = Str::uuid();
+            $model->attributes['id'] = Str::uuid();
         });
     }
 }
 ```
+<h3 id="sub-selects-in-laravel-way">Laravel 方式的子查詢 Way</h3>
 
-<h3 id="Sub-selects in Laravel Way">Sub-selects in Laravel Way</h3>
-
-From Laravel 6, you can use addSelect() in Eloquent statement, and do some calculation to that added column.
+> 在 Laravel 6 你可以使用 `addSelect()` 在 Eloquent 語句中，並對添加的列進行一些計算。
 
 ```php
 return Destination::addSelect(['last_flight' => Flight::select('name')
@@ -692,17 +693,16 @@ return Destination::addSelect(['last_flight' => Flight::select('name')
 ])->get();
 ```
 
-<h3 id="Hide Some Columns">Hide Some Columns</h3>
+<h3 id="hide-some-columns">隱藏部分欄位</h3>
 
-When doing Eloquent query, if you want to hide specific field from being returned, one of the quickest ways is to add `->makeHidden()` on Collection result.
+> 當執行 Eloquent 查詢時，如果你想隱藏特定欄位不被返回，一個最快的方法是在集合結果上添加 `->makeHidden()`。
 
 ```php
 $users = User::all()->makeHidden(['email_verified_at', 'deleted_at']);
 ```
+<h3 id="exact-db-error">精確的 DB 錯誤</h3>
 
-<h3 id="Exact DB Error">Exact DB Error</h3>
-
-If you want to catch Eloquent Query exceptions, use specific `QueryException` instead default Exception class, and you will be able to get the exact SQL code of the error.
+> 如果你想捕獲 Eloquent 查詢異常，使用特定的 `QueryException` 而不是默認的 Exception 類，你將能夠獲得錯誤的確切 SQL 代碼。
 
 ```php
 try {
@@ -714,35 +714,35 @@ try {
 }
 ```
 
-<h3 id="Soft-Deletes with Query Builder">Soft-Deletes with Query Builder</h3>
+<h3 id="soft-deletes-with-query-builder">使用查詢建構器進行軟刪除</h3>
 
-Don't forget that soft-deletes will exclude entries when you use Eloquent, but won't work if you use Query Builder.
+> 別忘記，當你使用 Eloquent 時，軟刪除將排除條目，但如果你使用查詢建構器(DB Facade)，它將不起作用。
 
 ```php
-// Will exclude soft-deleted entries
+// 將會排除軟刪除的紀錄
 $users = User::all();
 
-// Will NOT exclude soft-deleted entries
+// 不會排除軟刪除的紀錄
 $users = User::withTrashed()->get();
 
-// Will NOT exclude soft-deleted entries
+// 將不會排除軟刪除的紀錄
 $users = DB::table('users')->get();
 ```
 
-<h3 id="Good Old SQL Query">Good Old SQL Query</h3>
+<h3 id="good-old-sql-query">好老的 SQL 查詢</h3>
 
-If you need to execute a simple SQL query, without getting any results - like changing something in DB schema, you can just do `DB::statement()`.
+> 如果你需要執行一個簡單的 SQL 查詢，而不獲取任何結果 - 像在 DB schema 中做一些更改，你可以使用 `DB::statement()`。
 
 ```php
 DB::statement('DROP TABLE users');
 DB::statement('ALTER TABLE projects AUTO_INCREMENT=123');
 ```
 
-<h3 id="Use DB Transactions">Use DB Transactions</h3>
+<h3 id="use-db-transactions">使用 DB 交易</h3>
 
-If you have two DB operations performed, and second may get an error, then you should rollback the first one, right?
-
-For that, I suggest to use DB Transactions, it's really easy in Laravel:
+> 如果你有兩個 DB 操作，並且第二個可能出錯，那麼你應該回滾第一個，對吧？ <br/>
+> 為此，我建議使用 DB 交易，在 Laravel 中真的很容易：<br/>
+> *在 DB::transaction 中，第一個傳參為 callback，第二個傳參為重試次數*
 
 ```php
 DB::transaction(function () {
@@ -752,9 +752,9 @@ DB::transaction(function () {
 });
 ```
 
-<h3 id="Update or Create">Update or Create</h3>
+<h3 id="update-or-create">更新或建立</h3>
 
-If you need to check if the record exists, and then update it, or create a new record otherwise, you can do it in one sentence - use Eloquent method `updateOrCreate()`:
+> 如果你需要檢查記錄是否存在，然後更新它，或者否則創建一條新記錄，你可以在一個語句中使用 Eloquent 方法 `updateOrCreate()`：
 
 ```php
 // Instead of this
@@ -778,16 +778,16 @@ $flight = Flight::updateOrCreate(
 );
 ```
 
-<h3 id="Forget Cache on Save">Forget Cache on Save</h3>
+<h3 id="forget-cache-on-save">儲存時刪除快取</h3>
 
 源至 [@pratiksh404](https://github.com/pratiksh404)
 
-If you have cache key like `posts` that gives collection, and you want to forget that cache key on new store or update, you can call static `saved` function on your model:
+> 如果你有一個像 `posts` 這樣的快取鍵，它提供集合，並且你想在新的存儲或更新時忘記該快取鍵，你可以在你的模型上調用靜態 `saved` 函數：
 
 ```php
 class Post extends Model
 {
-    // Forget cache key on storing or updating
+    // 保存或更新時忘記快取鍵
     public static function boot()
     {
         parent::boot();
@@ -798,13 +798,13 @@ class Post extends Model
 }
 ```
 
-<h3 id="Change Format Of Created_at and Updated_at">Change Format Of Created_at and Updated_at</h3>
+<h3 id="change-format-of-created_at-and-updated_at">變更 created_at 和 updated_at 的格式</h3>
 
 源至 [@syofyanzuhad](https://github.com/syofyanzuhad)
 
-To change the format of `created_at` you can add a method in your model like this:
+> 如果你想要改變 `created_at` 的格式，你可以在你的模型中添加一個方法：
 
-Since Laravel 9:
+Laravel >= 9:
 ```php
 protected function createdAtFormatted(): Attribute
 {
@@ -814,7 +814,7 @@ protected function createdAtFormatted(): Attribute
 }
 ```
 
-Laravel 8 and below:
+Laravel < 9:
 ```php
 public function getCreatedAtFormattedAttribute()
 {
@@ -822,12 +822,11 @@ public function getCreatedAtFormattedAttribute()
 }
 ```
 
-So you can use it `$entry->created_at_formatted` when it's needed.
-It will return the `created_at` attribute like this: `04:19 23, Aug 2020`.
+> 然後你可以在需要的時候使用 `$entry->created_at_formatted`。<br/>
+> 它將返回 `created_at` 屬性，如此格式：`04:19 23, Aug 2020`。<br/><br/>
+> 並且對於更改 `updated_at` 屬性的格式，你可以添加這個方法：
 
-And also for changing format of `updated_at` attribute, you can add this method :
-
-Since Laravel 9:
+Laravel >= 9:
 ```php
 protected function updatedAtFormatted(): Attribute
 {
@@ -837,7 +836,7 @@ protected function updatedAtFormatted(): Attribute
 }
 ```
 
-Laravel 8 and below:
+Laravel < 9:
 ```php
 public function getUpdatedAtFormattedAttribute()
 {
@@ -845,14 +844,14 @@ public function getUpdatedAtFormattedAttribute()
 }
 ```
 
-So you can use it `$entry->updated_at_formatted` when it's needed.
-It will return the `updated_at` attribute like this: `04:19 23, Aug 2020`.
+> 然後你可以在需要的時候使用 `$entry->updated_at_formatted`。<br/>
+> 它將返回 `updated_at` 屬性，如此格式：`04:19 23, Aug 2020`。
 
-<h3 id="Storing Array Type into JSON">Storing Array Type into JSON</h3>
+<h3 id="storing-array-type-into-json">將陣列型別儲存為 JSON</h3>
 
 源至 [@pratiksh404](https://github.com/pratiksh404)
 
-If you have input field which takes an array and you have to store it as a JSON, you can use `$casts` property in your model. Here `images` is a JSON attribute.
+> 如果你有一個接受陣列的輸入欄位，並且你想將它存儲為 JSON，你可以在你的模型中使用 `$casts` 屬性。這裡 `images` 是一個 JSON 屬性。
 
 ```php
 protected $casts = [
@@ -860,11 +859,11 @@ protected $casts = [
 ];
 ```
 
-So you can store it as a JSON, but when retrieved from DB, it can be used as an array.
+> 然後你可以將它存儲為 JSON，但在從數據庫檢索時，它可以作為陣列使用。
 
-<h3 id="Make a Copy of the Model">Make a Copy of the Model</h3>
+<h3 id="make-a-copy-of-the-model">製作 Model 的副本</h3>
 
-If you have two very similar Models (like shipping address and billing address) and you need to make a copy of one to another, you can use `replicate()` method and change some properties after that.
+> 如果你有兩個非常相似的 Model（例如運送地址和帳單地址），並且你需要從一個 Model 複製到另一個 Model，你可以使用 `replicate()` 方法，然後在那之後更改一些屬性。
 
 Example from the [official docs](https://laravel.com/docs/8.x/eloquent#replicating-models):
 
@@ -884,44 +883,40 @@ $billing = $shipping->replicate()->fill([
 $billing->save();
 ```
 
-<h3 id="Reduce Memory">Reduce Memory</h3>
+<h3 id="reduce-memory">減少記憶體使用量</h3>
 
-Sometimes we need to load a huge amount of data into memory. For example:
+> 有時我們需要將大量數據加載到內存中。例如：
 
 ```php
 $orders = Order::all();
 ```
 
-But this can be slow if we have really huge data, because Laravel prepares objects of the Model class.
-In such cases, Laravel has a handy function `toBase()`
+> 但是如果我們有非常龐大的數據,這樣可能會很慢,因為Laravel需要為Model類別準備物件實例。在這種情況下,Laravel有一個很方便的函數`toBase()`。
 
 ```php
 $orders = Order::toBase()->get();
 //$orders will contain `Illuminate\Support\Collection` with objects `StdClass`.
 ```
+> 通過調用這個方法,它會從數據庫中獲取數據,但不會實例化Model類別。請注意，向get方法傳遞欄位陣列通常是一個好主意,這樣可以防止從數據庫中獲取所有欄位。
 
-By calling this method, it will fetch the data from the database, but it will not prepare the Model class.
-Keep in mind it is often a good idea to pass an array of fields to the get method, preventing all fields to be fetched from the database.
+<h3 id="force-query-without-fillableguarded">強制查詢時不使用 $fillable/$guarded</h3>
 
-<h3 id="Force query without $fillable/$guarded">Force query without $fillable/$guarded</h3>
-
-If you create a Laravel boilerplate as a "starter" for other devs, and you're not in control of what THEY would later fill in Model's $fillable/$guarded, you may use forceFill()
+> 如果你為其他開發人員創建了一個 Laravel 樣板作為其他開發人員的“起點”，並且你無法控制他們以後將在 Model 的 `$fillable`/$guarded` 中填入什麼，你可以使用 `forceFill()`。
 
 ```php
 $team->update(['name' => $request->name])
 ```
 
-What if "name" is not in Team model's `$fillable`? Or what if there's no `$fillable/$guarded` at all?
+> 如果 "name" 不在 Team Model 的 `$fillable` 中怎麼辦？或者如果根本沒有 `$fillable/$guarded` 怎麼辦？
 
 ```php
 $team->forceFill(['name' => $request->name])
 ```
+> 這將忽略該查詢的 `$fillable`，無論如何都會執行。
 
-This will "ignore" the `$fillable` for that one query and will execute no matter what.
+<h3 id="3-level-structure-of-parent-children">三層父子結構</h3>
 
-<h3 id="3-level structure of parent-children">3-level structure of parent-children</h3>
-
-If you have a 3-level structure of parent-children, like categories in an e-shop, and you want to show the number of products on the third level, you can use `with('yyy.yyy')` and then add `withCount()` as a condition
+> 如果你有一個父子結構的三層結構，例如電子商店中的類別，並且你想顯示第三層的產品數量，你可以使用 `with('yyy.yyy')`，然後添加 `withCount()` 作為條件。
 
 ```php
 class HomeController extend Controller
@@ -978,10 +973,10 @@ class Category extends Model
 </ul>
 ```
 
-<h3 id="Perform any action on failure">Perform any action on failure</h3>
+<h3 id="perform-any-action-on-failure">失敗時執行任何操作</h3>
 
-When looking for a record, you may want to perform some actions if it's not found.
-In addition to `->firstOrFail()` which just throws 404, you can perform any action on failure, just do `->firstOr(function() { ... })`
+> 當查找記錄時，如果找不到記錄，您可能希望執行一些操作。<br/>
+> 除了 `->firstOrFail()` 只是拋出 404，您可以在失敗時執行任何操作，只需 `->firstOr(function() { ... })`。
 
 ```php
 $model = Flight::where('legs', '>', 3)->firstOr(function () {
@@ -989,9 +984,9 @@ $model = Flight::where('legs', '>', 3)->firstOr(function () {
 })
 ```
 
-<h3 id="Check if record exists or show 404">Check if record exists or show 404</h3>
+<h3 id="check-if-record-exists-or-show-404">檢查紀錄是否存在或顯示 404</h3>
 
-Don't use find() and then check if the record exists. Use findOrFail().
+> 不要使用 `find()` 然後檢查記錄是否存在。使用 `findOrFail()`。
 
 ```php
 $product = Product::find($id);
@@ -1001,16 +996,15 @@ if (!$product) {
 $product->update($productDataArray);
 ```
 
-Shorter way
-
+> 這樣做更好：
 ```php
 $product = Product::findOrFail($id); // shows 404 if not found
 $product->update($productDataArray);
 ```
 
-<h3 id="Abort if condition failed">Abort if condition failed</h3>
+<h3 id="abort-if-condition-failed">如果條件失敗則中止</h3>
 
-`abort_if()` can be used as shorter way to check condition and throw an error page.
+> `abort_if()` 可以用作檢查條件並拋出錯誤頁面的簡短方式。
 
 ```php
 $product = Product::findOrFail($id);
@@ -1018,8 +1012,7 @@ if($product->user_id != auth()->user()->id){
     abort(403);
 }
 ```
-
-Shorter way
+> 這樣做更好：
 
 ```php
 /* abort_if(CONDITION, ERROR_CODE) */
@@ -1027,9 +1020,9 @@ $product = Product::findOrFail($id);
 abort_if ($product->user_id != auth()->user()->id, 403)
 ```
 
-<h3 id="Fill a column automatically while you persist data to the database">Fill a column automatically while you persist data to the database</h3>
+<h3 id="fill-a-column-automatically-while-you-persist-data-to-the-database">在持久化資料到資料庫時自動填入欄位</h3>
 
-If you want to fill a column automatically while you persist data to the database (e.g: slug) use Model Observer instead of hard code it every time
+> 如果您想在將數據持久化到數據庫時自動填充某個列（例如：slug），請使用 Model Observer 而不是每次硬編碼。
 
 ```php
 use Illuminate\Support\Str;
@@ -1050,9 +1043,9 @@ class Article extends Model
 
 源至 [@sky_0xs](https://twitter.com/sky_0xs/status/1432390722280427521)
 
-<h3 id="Extra information about the query">Extra information about the query</h3>
+<h3 id="extra-information-about-the-query">關於查詢的額外資訊</h3>
 
-You can call the `explain()` method on queries to know extra information about the query.
+> 您可以在查詢上調用 `explain()` 方法來獲取有關查詢的額外信息。
 
 ```php
 Book::where('name', 'Ruskin Bond')->explain()->dd();
